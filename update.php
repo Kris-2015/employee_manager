@@ -13,7 +13,7 @@ if (isset($_GET['emp_id']) && !empty($_GET['emp_id'])) {
 
 //fetching all the information of the employee
 	$select_employee = " SELECT *, (
-    	select GROUP_CONCAT(street, ' ', city, ' ', zip) AS official_address FROM address addr WHERE type = 'office' AND addr.employee_id = e.id
+    	 select GROUP_CONCAT(street, ' ', city, ' ', zip) AS official_address FROM address addr WHERE type = 'office' AND addr.employee_id = e.id
         ) as official_address,
         (
         select GROUP_CONCAT(street, ' ', city, ' ', zip) AS official_address FROM address addrhome WHERE type = 'residence' AND addrhome.employee_id = e.id
