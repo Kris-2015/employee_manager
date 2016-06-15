@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Registration Page</title>
+	<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/imageUpload.css">
+    <script type="text/javascript" src="js/image.js"></script>
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div class="col-xs-6 col-xs-offset-3">
+			<div class="panel panel-default" style="position:relative; top:30px;">
+				<div class="panel-heading"><strong>REGISTRATION PAGE</strong></div>
+				<div class="panel-body">
+						<form class="form-horizontal" action="form_submit.php" role="form" method="POST">
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="fname">First Name:</label>
+								<div class="col-xs-9">
+									<input type="text" class="form-control" name="fname" id="fname" placeholder="First Name">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="mname">Middle Name:</label>
+								<div class="col-xs-9">
+									<input type="text" name="mname" class="form-control" id="lname" placeholder="Middle Name">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="lname">Last Name:</label>
+								<div class="col-xs-9">
+									<input type="text" name="lname" class="form-control" id="lname" placeholder="Last Name">
+								</div>
+							</div>
+							<!-- <div class="form-group">
+								<label class="control-label col-xs-3" for="prefix">Prefix:</label>
+								<div class="control-label col-xs-3">
+									<select class="form-control" id="prefix">
+										<option>Select</option>
+										<option>Mr.</option>
+										<option>Mrs.</option>
+								</select>	
+								</div>
+							</div> -->
+
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="prefix">Prefix:</label>
+								  <div class="control-label col-xs-3">
+								  	<label class="radio-inline">
+										<input type="radio" name="prefix" value="mr">Mr.
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="prefix" value="mrs">Mrs.
+									</label>
+								  </div>
+														
+							</div>
+							
+							<!--
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="prefix">Gender:</label>
+								<div class="control-label col-xs-3">
+									<select class="form-control" id="prefix">
+										<option>Select</option>
+										<option>Male</option>
+										<option>Female</option>
+								</select>	
+								</div>
+							</div>  -->
+							 
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="gender">Gender:</label>
+								<div class="control-label col-xs-4" style="position: relative;right: 16px;">
+									<label class="radio-inline">
+									<input type="radio" name="gender" value="male">Male
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="gender" value="female">Female
+								</label>
+								</div>					
+							</div>
+
+							
+
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="dob">Date of Birth:</label>
+								<div class="control-label col-xs-5">
+									<input type="date" class="form-control" name="dob" placeholder="Date of Birth">	
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="Mstatus">Maritial Status:</label>
+								<div class="control-label col-xs-5">
+									<select class="form-control" id="Mstatus" name="martial_status">
+										<option value="">Select</option>
+										<option value="1">Single</option>
+										<option value="2">Married</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="employment">Employment:</label>
+								<div class="control-label col-xs-5">
+									<select class="form-control" id="employment" name="employement">
+										<option value="">Select</option>
+										<option value="1">Student</option>
+										<option value="2">Employed</option>
+										<option value="3">Others</option>
+									</select>	
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="employer">Employer:</label>
+								<div class="col-xs-5">
+									<input type="text" class="form-control" name="employer" id="employer" placeholder="Employer">
+								</div>
+							</div>					
+							<!-- Image Upload -->
+							<div class="form-group">
+								<label class="control-label col-xs-3">Image Upload:</label>
+								<div class="col-xs-9">
+								<div class="input-group image-preview">
+									<input type="text" class="form-control image-preview-filename" disabled="disabled" >
+										<span class="input-group-btn">
+											<!-- Image preview-clear button -->
+
+											<button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+												<span class="glyphicon glyphicon-remove"></span>Clear
+											</button>
+											<!-- image-preview-input -->
+
+											<div class="btn btn-default image-preview-input">
+												<span class="glyphicon glyphicon-folder-open"></span>
+												<span class="image-preview-input-title">Browse</span>
+												<input type="file" name="user_image" accept="image/png, image/jpeg, image/gif" />
+											</div>
+										</span>
+								</div>
+							</div>
+							</div>
+							
+							<!-- Image Upload task ends -->
+							<hr>
+							<!-- Official Address and Residential Address  -->
+							<h3><u>RESIDENTIAL ADDRESS</u></h3>
+							<br>
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="street">Street:</label>
+								<div class="col-xs-9">
+									<input type="text" class="form-control" id="street" name="home_street" placeholder="Street">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="city">City:</label>
+								<div class="col-xs-9">
+									<input type="text" class="form-control" id="city" name="home_city" placeholder="City">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="state">State:</label>
+								<div class="col-xs-9">
+									<select class="form-control" id="employment" name="home_state">
+										<option>Andhra Pradesh</option>
+										<option>Arunachal Pradesh</option>
+										<option>Assam</option>
+										<option>Bihar</option>
+										<option>Chhattisgarh</option>
+										<option>Goa</option>
+										<option>Gujarat</option>
+										<option>Haryana</option>
+										<option>Himachal Pradesh</option>
+										<option>Jammu and Kashmir</option>
+										<option>Jharkhand</option>
+										<option>Karnataka</option>
+										<option>Kerala</option>
+										<option>Madhya Pradesh</option>
+										<option>Maharashtra</option>
+										<option>Manipur</option>
+										<option>Meghalaya</option>
+										<option>Mizoram</option>
+										<option>Nagaland</option>
+										<option>Odisha</option>
+										<option>Punjab</option>
+										<option>Rajasthan</option>
+										<option>Sikkim</option>
+										<option>Tamil Nadu</option>
+										<option>Telangana</option>
+										<option>Uttar Pradesh</option>
+										<option>Uttarakhand</option>
+										<option>West Bengal</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="zip">Zip:</label>
+								<div class="col-xs-9">
+									<input type="text" class="form-control" id="zip" name="home_zip" placeholder="Zip Code">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="mob">Mobile:</label>
+								<div class="col-xs-9">
+									<input type="text" class="form-control" id="mob" name="home_mobile" placeholder="Mobile Number">
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="ldline">Landline:</label>
+								<div class="col-xs-9">
+									<input type="text" class="form-control" id="ldline" name="home_landline" placeholder="Landlline">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="fax">Fax:</label>
+								<div class="col-xs-9">
+									<input type="text" class="form-control" id="fax" name="home_fax">
+								</div>
+							</div>
+							<br>
+							<hr>
+							<!-- Official Address -->
+
+							<h3><u>OFFICE ADDRESS</u></h3>
+							<br>
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="street">Street:</label>
+								<div class="col-xs-9">
+									<input type="text" class="form-control" id="street" name="office_street" placeholder="Street">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="city">City:</label>
+								<div class="col-xs-9">
+									<input type="text" class="form-control" id="city" name="office_city" placeholder="City">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="state">State:</label>
+								<div class="col-xs-9">
+									<select class="form-control" id="employment" name="office_state">
+										<option>Andhra Pradesh</option>
+										<option>Arunachal Pradesh</option>
+										<option>Assam</option>
+										<option>Bihar</option>
+										<option>Chhattisgarh</option>
+										<option>Goa</option>
+										<option>Gujarat</option>
+										<option>Haryana</option>
+										<option>Himachal Pradesh</option>
+										<option>Jammu and Kashmir</option>
+										<option>Jharkhand</option>
+										<option>Karnataka</option>
+										<option>Kerala</option>
+										<option>Madhya Pradesh</option>
+										<option>Maharashtra</option>
+										<option>Manipur</option>
+										<option>Meghalaya</option>
+										<option>Mizoram</option>
+										<option>Nagaland</option>
+										<option>Odisha</option>
+										<option>Punjab</option>
+										<option>Rajasthan</option>
+										<option>Sikkim</option>
+										<option>Tamil Nadu</option>
+										<option>Telangana</option>
+										<option>Uttar Pradesh</option>
+										<option>Uttarakhand</option>
+										<option>West Bengal</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="zip">Zip:</label>
+								<div class="col-xs-9">
+									<input type="text" class="form-control" id="zip" name="zip" placeholder="Zip Code">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="mob">Mobile:</label>
+								<div class="col-xs-9">
+									<input type="text" class="form-control" id="mob" name="mob" placeholder="Mobile Number">
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="ldline">Landline:</label>
+								<div class="col-xs-9">
+									<input type="text" class="form-control" id="ldline" name="landline" placeholder="Landlline">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="fax">Fax:</label>
+								<div class="col-xs-9">
+									<input type="text" class="form-control" id="fax" name="fax">
+								</div>
+							</div>
+
+							<br>
+							<hr>
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="extra">Extra Note:</label>
+								<div class="col-xs-9">
+									<textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
+								</div>
+							</div>
+							<hr>
+							<div class="form-group">
+								<label class="control-label col-xs-3" for="comm">Preferred Communication:</label><br>
+								<div class="col-xs-8">
+									<label class="checkbox-inline"><input type="checkbox" name=
+									"communication[]" value="mobile">Mobile</label>
+									<label class="checkbox-inline"><input name=
+									"communication[]" type="checkbox" value="email">Email</label>
+									<label class="checkbox-inline"><input name="communication[]" type="checkbox" value="sms">SMS</label>
+									<label class="checkbox-inline"><input name="communication[]" type="checkbox" value="other">Others</label>
+								</div>
+							</div>
+							<br>
+							<div class="col-xs-8">
+								<button type="submit" class="btn btn-info btn-lg pull-right">Register Me</button>	
+							</div>
+							
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
