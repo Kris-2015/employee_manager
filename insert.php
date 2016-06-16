@@ -13,55 +13,143 @@ include('image_upload.php');
  *@datatype
  *@return dataType
 */
-if(isset($_POST['submit'])) {
-    // variable declaration
-    $first_name = isset($_POST['first_name']) ? $_POST['first_name'] : '';
+if(isset($_POST['submit'])) 
+{
+   $error=0;
+
+    function validate($data)
+    {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchar($data);
+        return data;
+    }
+    // variable declaration and validation
+    $first_name = validate($_POST["first_name"]);
+    if(!preg_match("/^[a-zA-Z ]*$/",$first_name))
+    {
+        $first_name_err="Only letters and white space allowed.";
+        $error++;
+    }
     
-    $middle_name = isset($_POST['middle_name']) ? $_POST['middle_name'] : '';
+    $middle_name = validate($_POST["middle_name"]);
+    if(!preg_match("/^[a-zA-Z ]*$/",$middle_name))
+    {
+        $middle_name_err="Only letters and white space allowed.";
+        $error++;
+    }
     
-    $last_name = isset($_POST['last_name']) ? $_POST['last_name'] : '';
+    $last_name = validate($_POST["last_name"]);
+    if(!preg_match("/^[a-zA-Z ]*$/",$last_name))
+    {
+        $last_name_err="Only letters and white space allowed.";
+        $error++;
+    }
     
-    $prefix = isset($_POST['prefix']) ? $_POST['prefix'] : '';
+    $prefix = validate($_POST["prefix"]);
     
-    $dob = isset($_POST['dob']) ? $_POST['dob'] : '';
+    $dob = validate($_POST["dob"]);
     
-    $gender = isset($_POST['gender']) ? $_POST['gender'] : '';
+    $gender = validate($_POST["gender"]);
     
-    $marital_status = isset($_POST['marital_status']) ? $_POST['marital_status'] : '';
+    $marital_status = validate($_POST["marital_status"]);
     
-    $employer = isset($_POST['employer']) ? $_POST['employer'] : '';
+    $employer = validate($_POST["employer"]);
+    if(!preg_match("/^[a-zA-Z ]*$/",$employer))
+    {
+        $employer_err="Only letters and white space allowed.";
+        $error++;
+    }
     
-    $employment = isset($_POST['employment']) ? $_POST['employment'] : '';
+    $employment = validate($_POST["employment"]);
     
     $image = isset($_FILES['image']['name']) ? $_FILES['image']['name'] : '';
     
-    $home_street = isset($_POST['home_street']) ? $_POST['home_street'] : '';
+    $home_street = validate($_POST["home_street"]);
     
-    $home_city = isset($_POST['home_city']) ? $_POST['home_city'] : '';
+    $home_city = validate($_POST["home_city"]);
+    if(!preg_match("/^[a-zA-Z ]*$/",$home_city))
+    {
+        $home_city_err="Only letters and white space allowed.";
+        $error++;
+    }
     
-    $home_state = isset($_POST['home_state']) ? $_POST['home_state'] : '';
+    $home_state = validate($_POST["home_state"]);
     
-    $home_zip = isset($_POST['home_zip']) ? $_POST['home_zip'] : '';
+    $home_zip = validate($_POST["home_zip"]);
+    /*if (!preg_match("/^[0-9]*$/",$home_zip))
+    {
+        $home_zip_err = "Only numbers are allowed";
+        $error++;
+    }
+    if(!empty($home_zip) && strlen($home_zip) != 6)
+    {
+        $home_zip_err = "zip number should be 6 digits"
+    }*/
     
-    $home_mobile = isset($_POST['home_mobile']) ? $_POST['home_mobile'] : '';
+    $home_mobile = validate($_POST["home_mobile"]);
+    if(!preg_match("/^[0-9]*$/",$home_mobile))
+    {
+        $home_mobile_err = "Only numbers are allowed";
+        $error++;
+    }
+    if(!empty($home_mobile) && strlen($home_mobile) != 10)
+    {
+        $home_mobile_err = "zip number should be 10 digits"
+    }
     
-    $home_landline = isset($_POST['home_landline']) ? $_POST['home_landline'] : '';
+    $home_landline = validate($_POST["home_landline"]);
+    if(!preg_match("/^[0-9]*$/",$home_landline))
+    {
+        $home_landline_err = "Only numbers are allowed";
+        $error++;
+    }
+
+    $home_fax = validate($_POST["home_fax"]);
     
-    $home_fax = isset($_POST['home_fax']) ? $_POST['home_fax'] : '';
+    $office_street = validate($_POST["office_street"]);
     
-    $office_street = isset($_POST['office_street']) ? $_POST['office_street'] : '';
+    $office_city = validate($_POST["office_city"]);
+    if(!preg_match("/^[a-zA-Z ]*$/",$office_city))
+    {
+        $office_city_err="Only letters and white space allowed";
+        $error++;
+    }
     
-    $office_city = isset($_POST['office_city']) ? $_POST['office_city'] : '';
+    $office_state = validate($_POST["office_state"]);
     
-    $office_state = isset($_POST['office_state']) ? $_POST['office_state'] : '';
+    $office_zip = validate($_POST["office_zip"]);
+    if(!preg_match("/^[0-9]*$/",$office_zip))
+    {
+        $office_zip_err = "Only numbers are allowed";
+        $error++;
+    }
+    if(!empty($office_zip) && strlen($office_zip) != 6)
+    {
+        $office_zip_err = "zip number should be 6 digits"
+        $error++;
+    }
     
-    $office_zip = isset($_POST['office_zip']) ? $_POST['office_zip'] : '';
+    $office_mobile = validate($_POST["office_mobile"]);
+    if(!preg_match("/^[0-9]*$/",$office_mobile))
+    {
+        $office_mobile_err = "Only numbers are allowed";
+        $error++;
+    }
+    if(!empty($office_mobile) && strlen($office_mobile) != 10)
+    {
+        $office_mobile_err = "zip number should be 10 digits"
+        $error++;
+    }
     
-    $office_mobile = isset($_POST['office_mobile']) ? $_POST['office_mobile'] : '';
+    $office_landline = validate($_POST["office_landline"]);
+    if(!preg_match("/^[0-9]*$/",$office_landline))
+    {
+        $office_landline_err = "Only numbers are allowed";
+        $error++;
+    }
     
-    $office_landline = isset($_POST['office_landline']) ? $_POST['office_landline'] : '';
-    
-    $office_fax = isset($_POST['office_fax']) ? $_POST['office_fax'] : '';
+    $office_fax = validate($_POST["office_fax"]);
     
     $communication = implode(',', $_POST['communication']);
 
@@ -69,42 +157,31 @@ if(isset($_POST['submit'])) {
     imageUpload($_FILES);
     
     //Insert operation in employee table
-    $sql = "INSERT INTO employee(first_name, middle_name, last_name, prefix, dob, gender, marital_status, employer, employment, image) VALUES('$first_name' , '$middle_name' , '$last_name' , '$prefix' , '$dob' , '$gender' , '$marital_status' , '$employer' , '$employment' , '$image');";
+    $employee = "INSERT INTO employee(first_name, middle_name, last_name, prefix, dob, gender, marital_status, employer, employment, image) VALUES('$first_name' , '$middle_name' , '$last_name' , '$prefix' , '$dob' , '$gender' , '$marital_status' , '$employer' , '$employment' , '$image');";
     
 
-    $result = mysqli_query($conn, $sql);
+    $result = mysqli_query($conn, $employee);
     
-    if (TRUE === $result) {
+    if (TRUE === $result)
+    {
         $employee_id = mysqli_insert_id($conn);
         
         
-        $sql_2 = "INSERT INTO address(employee_id,type, street, city, state, zip, mobile, landline, fax) VALUES('$employee_id' ,'residence', '$home_street' , '$home_city' , '$home_state' , '$home_zip' , '$home_mobile' , '$home_landline' , '$home_fax'),('$employee_id' ,'office', '$office_street' , '$office_city' , '$office_state' , '$office_zip' , '$office_mobile' , '$office_landline' , '$office_fax');";
+        $address = "INSERT INTO address(employee_id,type, street, city, state, zip, mobile, landline, fax) VALUES('$employee_id' ,'residence', '$home_street' , '$home_city' , '$home_state' , '$home_zip' , '$home_mobile' , '$home_landline' , '$home_fax'),('$employee_id' ,'office', '$office_street' , '$office_city' , '$office_state' , '$office_zip' , '$office_mobile' , '$office_landline' , '$office_fax');";
         
-        $result = mysqli_query($conn, $sql_2);
+        $result = mysqli_query($conn, $address);
         
-        $sql_3 = "INSERT INTO communication(employee_id,type) VALUES('$employee_id','$communication')";
+        $communication = "INSERT INTO communication(employee_id,type) VALUES('$employee_id','$communication')";
         
-        $result = mysqli_query($conn, $sql_3);
+        $result = mysqli_query($conn, $communication);
 
-        /*if($result == TRUE)
-        {
-        	header("Location:simple.php");
-        }*/
-
-       /* if ($error == false)
-         {
-        	$mess = '<div class="alert alert-success">You are registered!!</div>';
-        }
-        else
-        {
-        	$mess = '<div class="alert alert-danger">Error, try again</div>';
-        }*/
-
-    } else {
-        echo "Error in data";
     }
-    
-}
+    else
+    {
+        echo "Error while insertion";
+    }
+}    
 
-mysqli_close($conn);
+
+//mysqli_close($conn);
 ?>
