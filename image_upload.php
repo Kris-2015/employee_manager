@@ -27,7 +27,7 @@ function imageUpload($file) {
 		{
 			if (move_uploaded_file($file_tmp, __DIR__ . "/profile/" . $file_name))
 			{
-			  echo "alert('Succesfully registered')";
+			  echo "<script>alert('Successfully registered');</script>";
 			} 
 			else
 		    {

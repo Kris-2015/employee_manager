@@ -9,7 +9,7 @@ ini_set('display_errors', '1');
 
 include('db_conn.php');
 //include('image_upload.php');
-//require('insert.php');
+require('insert.php');
 ?>
 
 <!DOCTYPE html>
@@ -93,8 +93,8 @@ include('db_conn.php');
                                 echo "<td>" . $row["official_address"]  ."</td>";
                                 echo "<td>" . $row["residential_address"]  ."</td>";
                                 echo "<td>" . $row["communication_medium"] . "</td>";
-                                echo "<td>" . "<button type='submit'><a href='edit.php/?&emp_id=" . $row['id'] . "'>Edit</a></button></td>";
-                                echo "<td>" . "<button type='submit'><a href='delete.php?emp_id=" . $row['id'] ."'>Delete</a></button></td>";
+                                echo "<td>" . '<a href="registration.php/?&emp_id=' . $row['id'] . '&userAction=update">Edit</a></td>';
+                                echo "<td>" . '<a href="delete.php?emp_id=' . $row['id'] .'">Delete</a></td>';
                            
                                echo "</tr>";
                              }
