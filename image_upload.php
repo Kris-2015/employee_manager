@@ -9,7 +9,7 @@
 function imageUpload($file) {
 	if (isset($file['image']))
     {
-   		$errors     = array();
+   		$errors     ;
 		$file_name  = $file['image']['name'];
 		$file_size  = $file['image']['size'];
 		$file_tmp   = $file['image']['tmp_name'];
@@ -20,7 +20,7 @@ function imageUpload($file) {
 
 		if(in_array($file_ext, $extensions) === false)
 		{
-	 		$errors[] = "extension not allowed, please choose a JPEG or PNG file.";
+	 		$errors = "extension not allowed, please choose a JPEG or PNG file.";
 		}
 
 		if (empty($errors))
@@ -34,10 +34,10 @@ function imageUpload($file) {
 			  echo 'Error';
 			}
 		} 
-		else
-		{
-		 print_r($errors);
-		}
+		// else
+		// {
+		//  print_r($errors);
+		// }
     }
 }
 ?>
