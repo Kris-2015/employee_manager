@@ -1,4 +1,5 @@
 <?php
+define('BASE_URL', ($_SERVER['SERVER_PROTOCOL'] == 'HTTP/1.1' ? 'http' : 'https') . '://' . $_SERVER['SERVER_NAME'] . '/');
 
 $hostname = "localhost";
 $username = "root";
