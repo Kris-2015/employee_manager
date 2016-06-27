@@ -5,11 +5,11 @@
  *purpose: listing of data from the database
 */
 
-ini_set('display_errors', '1');
+ini_set('display_errors', '1'); 
 
-include('db_conn.php');
+include_once('db_conn.php');
 //include('image_upload.php');
-require('insert.php');
+require_once('insert.php');
 ?>
 
 <!DOCTYPE html>
@@ -64,7 +64,7 @@ require('insert.php');
                         (
                           SELECT type FROM communication c
                           WHERE c.employee_id = e.id
-                        ) AS communication_medium
+                        ) AS communication_medium 
                         FROM employee e";
                                   
                         $result = mysqli_query($conn,$fetch);
