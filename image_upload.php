@@ -6,7 +6,8 @@
 */
 
 //fileUpload will perform image 
-function imageUpload($file) {
+function imageUpload($file)
+ {
 	if (isset($file['image']))
     {
    		$errors     ;
@@ -34,10 +35,6 @@ function imageUpload($file) {
 			  echo 'Error';
 			}
 		} 
-		// else
-		// {
-		//  print_r($errors);
-		// }
     }
 }
 ?>
