@@ -5,9 +5,9 @@
  *category: insertion
  */
 
-include('db_conn.php');
-include('image_upload.php');
-include('test_validation.php');
+include_once('db_conn.php');
+include_once('image_upload.php');
+include_once('test_validation.php');
 
 /*
  *@access public
@@ -59,23 +59,26 @@ if (isset($_POST['submit'])) {
         
         $result = mysqli_query($conn, $employee);
         
-        if ($result === TRUE) {
+        if ($result === TRUE) 
+        {
             $employee_id = mysqli_insert_id($conn);
             
             $address = "INSERT INTO address(employee_id,type, street, city, state, zip, mobile, landline, fax) VALUES('$employee_id' ,'residence', '$home_street' , '$home_city' , '$home_state' , '$home_zip' , '$home_mobile' , '$home_landline' , '$home_fax'),('$employee_id' ,'office', '$office_street' , '$office_city' , '$office_state' , '$office_zip' , '$office_mobile' , '$office_landline' , '$office_fax');";
             
             $result = mysqli_query($conn, $address);
             
-            $communication = "INSERT INTO communication(employee_id,type) VALUES('$employee_id','$communication')";
+            $insert_communication = "INSERT INTO communication(employee_id,type) VALUES('$employee_id','$communication')";
             
-            $result = mysqli_query($conn, $communication);
-        } else {
+            $result = mysqli_query($conn, $insert_communication);
+        } 
+        else 
+        {
             echo "<script>alert('Error while insertion')</script>";
         }
     }
     else
     {
-        header("location:registration.php");
+        header("location:registration.php");    
     }
 }
 
