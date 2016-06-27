@@ -1,8 +1,8 @@
 
 <?php
 ini_set('display_errors', '1');
-include ('test_validation.php');
-
+include_once ('test_validation.php');
+include_once ('db_conn.php');
 $user_info = array();
 $employee_id = 0;
 $first_name_err = $middle_name_err = $last_name_err = $employment_err = $employer_err = $home_street_err = $home_city_err = $home_state_err = $home_zip_err = $home_mobile_err = $home_landline_err = $home_fax_err = $office_street_err = $office_city_err = $office_state_err = $office_zip_err = $office_mobile_err = $office_landline_err = $office_fax_err = $communication_err = '';
@@ -11,34 +11,34 @@ $first_name_err = $middle_name_err = $last_name_err = $employment_err = $employe
 
 if (isset($_GET['emp_id']) && !empty($_GET['emp_id']))
 {
-    include ('db_conn.php');
 
-    $user_data = array();
+    //$user_data = array();
     $employee_id = $_GET['emp_id'];
 
     // fetching all the information of the employee
 
-    $select_employee = "SELECT emp.*, GROUP_CONCAT(addr.type) AS type,
-       GROUP_CONCAT(addr.city) AS city,
-       GROUP_CONCAT(addr.street) AS street,
-       GROUP_CONCAT(addr.state) AS state,
-       GROUP_CONCAT(addr.zip) AS zip,
-       GROUP_CONCAT(addr.mobile) AS mobile,
-       GROUP_CONCAT(addr.landline) AS landline,
-       GROUP_CONCAT(addr.fax) AS fax,
-       GROUP_CONCAT(comm.type) AS type
-       FROM employee emp  
-       LEFT JOIN communication comm ON emp.id = comm.employee_id
-       WHERE emp.id = $employee_id
-       GROUP BY emp.id";
+    $select_employee = "SELECT emp.* ,
+               GROUP_CONCAT(addr.street)as street,
+               GROUP_CONCAT(addr.city)as city,
+               GROUP_CONCAT(addr.state)as state,
+               GROUP_CONCAT(addr.zip)as zip,
+               GROUP_CONCAT(addr.mobile)as mobile,
+               GROUP_CONCAT(addr.landline)as landline,
+               GROUP_CONCAT(addr.fax)as fax,
+              (SELECT type FROM communication comm WHERE comm.employee_id = emp.id)AS communication
+               FROM employee emp
+               LEFT JOIN address addr ON emp.id = addr.employee_id
+               LEFT JOIN communication comm ON emp.id = comm.employee_id
+               WHERE emp.id = $employee_id";
     $result = mysqli_query($conn, $select_employee);
+
     if (mysqli_num_rows($result) > 0)
     {
         $user_info = mysqli_fetch_assoc($result);
     }
 }
 
-// Assiging all the fetched values here
+// Assiging all the fetched values header_remove()
 
 /*$first_name  = isset($user_info['first_name']) ? $user_info['first_name'] : '';
 $middle_name = isset($user_info['middle_name']) ? $user_info['middle_name'] : '';
@@ -133,13 +133,15 @@ else
     $office_fax = '';
 }
 
-if (isset($row['type']) && !empty($user_info['type']))
+if (isset($user_info['communication']) && !empty($user_info['communication']))
 {
     $comm_type = explode(',', $user_info['type']);
     $comm_1 = $comm_type[0];
     $comm_2 = $comm_type[1];
     $comm_3 = $comm_type[2];
     $comm_4 = $comm_type[3];
+
+
 }
 else
 {
@@ -160,11 +162,12 @@ else
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
       <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
       <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"> -->
-      <link rel="stylesheet" type="text/css" href="css/main.css">
-      <link rel="stylesheet" type="text/css" href="css/imageUpload.css">
-      <script language="javascript" src="<?php echo $_SERVER['SERVER_PROTOCOL'] == 'HTTP/1.1' ? 'http' : 'https' ?>://<?php echo $_SERVER['SERVER_NAME'] ?>/js/image.js"></script>
+      <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL ?>css/main.css">
+      <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL ?>css/imageUpload.css">
+      <script language="javascript" src="<?php echo BASE_URL ?>js/image.js"></script>
    </head>
    <body class="body">
+                                
       <nav class="navbar navbar-inverse">
          <div class="container-fluid">
             <div class="navbar-header">
@@ -497,7 +500,6 @@ else
                                        <?php if(isset($home_state) && $home_state=='Orissa') echo selected; ?> value="Orissa">Orissa</option>
                                     <option 
                                        <?php if(isset($home_state) && $home_state=='Pondicherry') echo selected; ?> value="Pondicherry">Pondicherry</option>
-                                    <option 
                                        <?php if(isset($home_state) && $home_state=='Punjab') echo selected; ?> value="Punjab">Punjab</option>
                                     <option 
                                        <?php if(isset($home_state) && $home_state=='Rajasthan') echo selected; ?> value="Rajasthan">Rajasthan</option>
@@ -800,19 +802,18 @@ else
                <div class="form-group" style="position:relative; left:35%;">
                <div class="col-lg-12">
                <!--<button type="submit" name="submit" class="btn btn-lg btn-info">Register</button> -->
-               <input type="submit" name="submit" value=
-                  <?php
-                     if(isset($_GET['userAction']) && $_GET['userAction']=='update')
-                     {
-                     echo 'update';
-                     }
-                     else
-                     {
-                     echo 'REGISTER';
-                     }
-                     ?> class="btn btn-lg btn-info">
-               <button type="reset" class="btn btn-lg btn-danger">Cancel
-               </button>
+               <?php
+                  if(isset($_GET['action']) && $_GET['action']=='update')
+                  {
+                    echo  "<input type = 'submit' name = 'update' value = 'update' class = 'btn btn-lg btn-info'>
+                           <input type = 'reset'  class = 'btn btn-lg btn-danger>' ";
+                  }
+                  else
+                  {
+                     echo  "<input type = 'submit' name = 'submit' value = 'REGISTER' class = 'btn btn-lg btn-info'>
+                            <input type = 'reset'  class = 'btn btn-lg btn-danger>' ";  
+                  }
+               ?>
                </div>
                </div>
                </form>
