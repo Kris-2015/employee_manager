@@ -172,9 +172,6 @@
 
 		 function update($id,$input)
 		 {
-		 	echo "<pre>";
-		 	print_r($input);
-		 	exit;
 		 	$data = $input;
 		 	$this->validation($data);
 
