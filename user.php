@@ -29,7 +29,6 @@
 			if($row == 1)
 			{
 				session_start();
-				//redirect to home page
 				$row = mysqli_fetch_assoc($query); 		
 				$user_id = $row['id'];
 				$user_name = $row['name'];
@@ -37,12 +36,6 @@
 				$_SESSION['user_name'] = $user_name;
 				return true;
 			}
-			// else
-			// {
-			// 	//invalid email_id or password
-			// 	$_SESSION[ 'error_msg' ] = "invalid mail id or password";
-			// 	return false;
-			// }
 		}
 
 		/*
