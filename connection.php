@@ -86,16 +86,16 @@ class db_connection
 	    
 	    $this->image_upload($image);
 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								
-    	if(empty($password) && empty($confirm_password))
+    	/*if(empty($password) && empty($confirm_password))
     	{
     		echo "<script>alert('Enter your password... ')</script>";
     		header('location:registration.php');
     		exit;
     	}
-	    else if($password == $confirm_password)
+	    else*/ if($password == $confirm_password)
 	    {
 
-	        $insert_employee = "INSERT INTO employee(first_name, middle_name, last_name, prefix, gender, dob, marital_status, employment, employer, email_id, password, image) VALUES('$first_name', '$middle_name', '$last_name', '$prefix', '$gender', '$dob', '$marital_status', '$employment', '$employer', '$email_id', '$password','$image['name']')" ;
+	        $insert_employee = "INSERT INTO employee(first_name, middle_name, last_name, prefix, gender, dob, marital_status, employment, employer, email_id, password, image) VALUES('$first_name', '$middle_name', '$last_name', '$prefix', '$gender', '$dob', '$marital_status', '$employment', '$employer', '$email_id', '$password','$image[name]')" ;
 	    	 
 	        $result_employee = mysqli_query($this->connect,$insert_employee);
 	    	
@@ -173,7 +173,6 @@ class db_connection
 	function update($id,$input)
 	{
 		$data = $input;
-	 	$this->validation($data);
 
 		$employee_id = $id;
 		$first_name = isset($input['input_data']['first_name']) ? $input['input_data']['first_name'] : ' ';
