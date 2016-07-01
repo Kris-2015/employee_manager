@@ -7,10 +7,7 @@ include('session_check.php');
 $obj = new session_check();
 $check_valid_user = $obj->logged_in();
 
-if($check_valid_user)
-{
-}
-else
+if(!$check_valid_user)
 {
   if(empty($_SESSION['user_id']))
   {
@@ -41,7 +38,7 @@ else
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Welcome, <?php echo isset($_SESSION['user_name'])? $_SESSION['user_name'] : '' ; ?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="/display.php">Profile</a></li>
+            <li><a href="/profile.php">Profile</a></li>
             <li><a href="/logout.php"> Logout </a></li>
           </ul>
         </li>
