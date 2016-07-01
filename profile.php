@@ -3,6 +3,20 @@
 ini_set("display_errors", "1"); 
 session_start();
 include('user.php');
+include('session_check.php');
+$obj = new session_check();
+$check_valid_user = $obj->logged_in();
+
+if($check_valid_user)
+{
+}
+else
+{
+  if(empty($_SESSION['user_id']))
+  {
+    header('location:login.php?logged_out=1');
+  }
+}
 ?>
 
 <!DOCTYPE html>
