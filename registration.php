@@ -178,6 +178,7 @@
    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
    <link rel="stylesheet" type="text/css" href="css/imageUpload.css">
    <link rel="stylesheet" type="text/css" href="css/cover.css">
+   <script type="text/javascript" src="js/validation_query.js"></script>
    <script language="javascript" src="js/image.js"></script>
 </head>
 <body>
@@ -212,7 +213,7 @@
          <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                <div class="well well-lg">
-                  <form class="form-inline" id="regd_form" role="form" method="POST" action="registration.php"
+                  <form class="form-inline" id="regd_form" role="form" method="POST" action="registration.php"  
                      enctype="multipart/form-data">
                      <h2>
                         <u>PERSONAL INFORMATION
@@ -247,7 +248,7 @@
                            value="<?php echo (isset($user_info['last_name']) ? $user_info['last_name'] : ''); ?>" required maxlenght="20" />
                         <span class="error"> 
                         <?php echo "<br>";
-                           echo isset($_SESSION['error']['last_name_err'])? $_SESSION['error']['last_name_err'] : '';
+                           echo isset($_SESSION['error']['last_name_err'])? $_SESSION['error']['last_name_err'] : ' ';
                            ?> 
                         </span>
                      </div>
@@ -339,7 +340,7 @@
                                     value="Employed" />Employed
                                  </label>
                                  <label class="radio-inline">
-                                 <input type="radio" name="employment"
+                                 <input type="radio" name="employment"  
                                     <?php if(isset($user_info['employment']) && $user_info['employment']=="Unemployed") echo 'checked';?>
                                     value="Unemployed" />Unemployed
                                  </label>
@@ -354,9 +355,9 @@
                         <div class="col-lg-8">
                            <input type="text" class="form-control" id="employer" name="employer" 
                               value="<?php echo (isset($user_info['employer']) ? $user_info['employer'] : ''); ?>" required maxlenght="20" />
-                           <span class="error"> 
+                           <span class="error">  
                            <?php echo "<br>";
-                              echo isset($_SESSION['employer_err'])? $_SESSION['employer_err'] : ''; 
+                              echo isset($_SESSION['employer_err'])? $_SESSION['employer_err'] : ' '; 
                               ?> 
                            </span>
                         </div>
@@ -369,7 +370,7 @@
                            <input type="text" class="form-control" id="email" name="email" required value="<?php echo (isset($user_info['email_id']) ? $user_info['email_id'] : '') ?>" placeholder="xyz@mail.com">
                         </div>
                         <span class="error">
-                           <?php echo isset($_SESSION['error']['email_id_err'])? $_SESSION['error']['email_id_err'] : ''; ?>
+                           <?php echo isset($_SESSION['error']['email_id_err'])? $_SESSION['error']['email_id_err'] : ' '; ?>
                         </span>
                      </div>
 
@@ -382,16 +383,19 @@
                            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                         </div>
                         <span class="error">
-                           <?php echo isset($_SESSION['error']['password_err'])? $_SESSION['error']['password_err'] : ''; ?>
+                         <?php echo isset($_SESSION['error']['password_err'])? $_SESSION['error']['password_err'] : ' '; ?>
                         </span>
                      </div>
                      <br />
                      <br />
                      <div class="form-group">
                      <label class="control-label col-lg-4" for="confirm_password">Confirm Password:</label>
-                        <div class="col-lg-8">
-                           <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password">
+                       <div class="col-lg-8">
+                         <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password"><br>
                         </div>
+                        <span class="error">
+                         <?php echo isset($_SESSION['error']['confirm_password_err'])? $_SESSION['error']['confirm_password_err'] : ' ';?>
+                        </span>
                      </div>
                      <!-- Image Upload -->
                      
@@ -837,19 +841,6 @@
                </div>
                <div class="form-group" style="position:relative; left:35%;">
                <div class="col-lg-12">
-               <!-- <input type="submit" name="submit" value=
-                  <?php
-                    /* if(isset($_GET['action']) && $_GET['action']=='update')
-                     {
-                     echo 'update';
-                     }
-                     else
-                     {
-                     echo 'REGISTER';
-                     }*/
-                     ?> class="btn btn-lg btn-info">
-               <button type="reset" class="btn btn-lg btn-danger">Cancel
-               </button> -->
 
                <?php
                   if(isset($_GET['action']) && $_GET['action']=='update')
