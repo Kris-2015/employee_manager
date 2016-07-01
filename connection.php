@@ -270,7 +270,7 @@ class db_connection
 
 	 	$delete = "DELETE employee, address, communication FROM employee
 		  LEFT JOIN  address ON employee.id = address.employee_id
-		  LEFT JOIN  communication ON employee.id = address.employee_id
+		  LEFT JOIN  communication ON employee.id = communication.employee_id
 		  WHERE employee.id=$employee_id";
 
 	 	$result_delete = mysqli_query($this->connect , $delete);
@@ -338,6 +338,7 @@ class db_connection
 			'gender' => 'please select anyone',
 			'prefix' => 'please select anyone',
 			'password' => 'please enter the password',
+			'confirm_password'=>'please enter the password',
 			'email_id' => 'please enter your email id',
 			'employer' => 'please enter employer name',
 			'home_street' => 'please fill the field',
@@ -463,7 +464,19 @@ class db_connection
 		if (empty($input['password']))
 		{
 			$_SESSION['error']['password_err'] = $error_space['password'];
+			$error++;
 		}
+
+		if (empty($input['confirm_password']))
+		{
+			$_SESSION['error']['confirm_password_err'] = $error_space['confirm_password'];
+			$error++;
+		}
+
+		// echo "<pre>";
+		// print_r($_SESSION);
+		// echo $error;
+		// exit;
 
 		// if(empty($input['email_id']))
 		// {
@@ -472,7 +485,7 @@ class db_connection
 		// else
 		// {
 		//     $email = test_input($input["email"]);
-		//     if(!filter_var($email, FILTER_VALIDATE_EMAIL))
+		//     if(!filter($email, FILTER_VALIDATE_EMAIL))
 		//     {
 		//         $_SESSION['error']['email_id_err'] = $error_list['email_id'];
 		//         $error++;
@@ -692,6 +705,8 @@ class db_connection
 		}
 
 		return $error;
+
+
 	}
 
 	/*
