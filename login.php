@@ -40,6 +40,7 @@ if (isset($_POST['login']))
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+   <link rel="stylesheet" type="text/css" href="css/cover.css">
 </head>
 <body>
 <nav class="navbar navbar-inverse">
@@ -82,6 +83,7 @@ if (isset($_POST['login']))
    		  				<div class="col-xs-9">
    		  					<input type="text" name="email_id" id="email" value="<?php echo isset($email_id)? $email_id : ' '; ?>" class="form-control" >
                         <span class="error">  </span>
+                        <p id="error" class="error_login"></p>
    		  				</div>
    		  			</div>
    		  			<div class="form-group">
@@ -89,6 +91,7 @@ if (isset($_POST['login']))
    		  				<div class="col-xs-9">
    		  					<input type="password" name="password" id="password" class="form-control" >
                         <span class="error"> </span>
+                        <p id="error_password" class="error_password"></p>
    		  				</div>
    		  			</div>
    		  			<div class="form-group">
