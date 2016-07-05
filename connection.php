@@ -22,10 +22,9 @@ class db_connection
 		//Error Handling
 		if(mysqli_connect_error())
 		{
-			trigger_error("Failed to connect mySQL:". mysqli_connect_error(),E_USER_ERROR);
+		   trigger_error("Failed to connect mySQL:" . mysqli_connect_error(),E_USER_ERROR);
 		}	 
 	}
-
 	/*
 	 * @access: public
 	 * @param : integer
@@ -33,16 +32,16 @@ class db_connection
 	*/
 	function display()
 	{
-			$conn = $this->connect;
+		$conn = $this->connect;
 
-				$display = "SELECT CONCAT(prefix, ' ',first_name, ' ',middle_name , ' ', last_name)as name, gender, email_id, dob, marital_status, id,
-					(SELECT GROUP_CONCAT(street, ',',city, ',',state, '-',zip) AS residence FROM address addr WHERE type = 'residence' AND addr.employee_id = e.id)as residence,
-					(SELECT GROUP_CONCAT(street, ',',city, ',',state, '-',zip) AS office FROM address addr WHERE type = 'office' AND addr.employee_id = e.id)as office,
-					(SELECT type FROM communication commu  WHERE commu.employee_id = e.id )as communication
-					FROM employee e " ;
+		$display = "SELECT CONCAT(prefix, ' ',first_name, ' ',middle_name , ' ', last_name)as name, gender, email_id, dob, marital_status, id,
+		    (SELECT GROUP_CONCAT(street, ',',city, ',',state, '-',zip) AS residence FROM address addr WHERE type = 'residence' AND addr.employee_id = e.id)as residence,
+			(SELECT GROUP_CONCAT(street, ',',city, ',',state, '-',zip) AS office FROM address addr WHERE type = 'office' AND addr.employee_id = e.id)as office,
+			(SELECT type FROM communication commu  WHERE commu.employee_id = e.id )as communication
+			FROM employee e " ;
 
-		 	$result = mysqli_query($conn,$display);
-		 	return $result;
+	 	$result = mysqli_query($conn,$display);
+	 	return $result;
 	}
 
 	/*
@@ -82,19 +81,11 @@ class db_connection
 	    $office_landline = $input['input_data']['office_landline'];
 	    $office_fax = $input['input_data']['office_fax'];
 	    $communication = implode(',' , $input['input_data']['communication']);
-
-	    
+   
 	    $this->image_upload($image);
 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								
-    	/*if(empty($password) && empty($confirm_password))
-    	{
-    		echo "<script>alert('Enter your password... ')</script>";
-    		header('location:registration.php');
-    		exit;
-    	}
-	    else*/ if($password == $confirm_password)
+		if($password == $confirm_password)
 	    {
-
 	        $insert_employee = "INSERT INTO employee(first_name, middle_name, last_name, prefix, gender, dob, marital_status, employment, employer, email_id, password, image) VALUES('$first_name', '$middle_name', '$last_name', '$prefix', '$gender', '$dob', '$marital_status', '$employment', '$employer', '$email_id', '$password','$image[name]')" ;
 	    	 
 	        $result_employee = mysqli_query($this->connect,$insert_employee);
@@ -133,7 +124,7 @@ class db_connection
 	/*
 	 * @access: public
 	 * @param: file
-	 * @return:
+	 * @return: string
 	*/
 	function image_upload($file)
 	{
@@ -161,7 +152,6 @@ class db_connection
 		  		return $errors	;
 			}
 		} 
-
 	}
 
 	/*
@@ -219,31 +209,33 @@ class db_connection
 		 		image = '$image'
 		 	WHERE e.id = $employee_id";
 		 	
-		 $result_employee = mysqli_query($this->connect , $update_employee);
+		$result_employee = mysqli_query($this->connect , $update_employee);
 	
-		 if($result_employee === TRUE)
-		 {
-		 	$update_residence = "UPDATE employee e
-		 		LEFT JOIN address addr ON e.id = addr.employee_id
-		 		SET street = '$home_street',
-		 			city = '$home_city',
-		 			state = '$home_state',
-		 			mobile = '$home_mobile',
-		 			landline = '$home_landline',
-		 			fax = '$home_fax'
-		 		WHERE addr.employee_id = $employee_id AND type = 'residence'";
+		if($result_employee === TRUE)
+		{
+		   $update_residence = "UPDATE employee e
+		 	LEFT JOIN address addr ON e.id = addr.employee_id
+		 	SET street = '$home_street',
+		 		city = '$home_city',
+		 		state = '$home_state',
+		 		mobile = '$home_mobile',
+		 		landline = '$home_landline',
+		 		fax = '$home_fax'
+		 	WHERE addr.employee_id = $employee_id 
+		 	AND type = 'residence'";
 
-		 	$result_residence = mysqli_query($this->connect, $update_residence);
+		   $result_residence = mysqli_query($this->connect, $update_residence);
 		 		
-		 	$update_office = "UPDATE employee e
-		 		LEFT JOIN address addr ON e.id = addr.employee_id
-		 		SET street = '$office_street',
-		 			city = '$office_city',
-		 			state = '$office_state',
-		 			mobile = '$office_mobile',
-		 			landline = '$office_landline',
-		 			fax = '$office_fax'
-		 		WHERE addr.employee_id = $employee_id AND type = 'office'";
+		   $update_office = "UPDATE employee e
+		 	LEFT JOIN address addr ON e.id = addr.employee_id
+		 	SET street = '$office_street',
+		 		city = '$office_city',
+		 		state = '$office_state',
+		 		mobile = '$office_mobile',
+		 		landline = '$office_landline',
+		 		fax = '$office_fax'
+		 	WHERE addr.employee_id = $employee_id 
+		 	AND type = 'office'";
 
 		 	$result_office = mysqli_query($this->connect, $update_office);
 
@@ -264,60 +256,57 @@ class db_connection
 	  * @param: integer
 	  * @return: array
 	 */
-	 function delete($id)
+	function delete($id)
+	{
+	  $employee_id = $id;
+
+	  $delete = "DELETE employee, address, communication FROM employee
+	    LEFT JOIN  address ON employee.id = address.employee_id
+		LEFT JOIN  communication ON employee.id = communication.employee_id
+		WHERE employee.id=$employee_id";
+
+	  $result_delete = mysqli_query($this->connect , $delete);
+	  //checking if the operation is successful or not
+	 if($result_delete)
 	 {
-	 	$employee_id = $id;
-
-	 	$delete = "DELETE employee, address, communication FROM employee
-		  LEFT JOIN  address ON employee.id = address.employee_id
-		  LEFT JOIN  communication ON employee.id = communication.employee_id
-		  WHERE employee.id=$employee_id";
-
-	 	$result_delete = mysqli_query($this->connect , $delete);
-	 	//checking if the operation is successful or not
-	 	if($result_delete)
-	 	{
-	 		return $result_delete;
-	 	}
-	 	else
-	 	{
-	 		$err_msg = "Unwanted error occured while deleting";
-	 		return $err_msg;
-	 	}
+	 	return $result_delete;
 	 }
-
+	 else
+	 {
+	 	$err_msg = "Unwanted error occured while deleting";
+	 	return $err_msg;
+	 }
+	}
 	 /*
 	  * @access: public
 	  * @param: integer
 	  * @return: array
 	 */
-
 	 function retrive_data($id)
 	 {
 	 	$employee_id = $id;
 	 	$select_employee = "SELECT emp.* ,
-           (SELECT street FROM address addr WHERE addr.type = 'residence' AND addr.employee_id = emp.id)as home_street,
-		   (SELECT street FROM address addr WHERE addr.type = 'office' AND addr.employee_id = emp.id)as office_street,
-            GROUP_CONCAT(addr.city)as city,
-            GROUP_CONCAT(addr.state)as state,
-            GROUP_CONCAT(addr.zip)as zip,
-            GROUP_CONCAT(addr.mobile)as mobile,
-            GROUP_CONCAT(addr.landline)as landline,
-            GROUP_CONCAT(addr.fax)as fax,
-		   (SELECT type FROM communication comm WHERE comm.employee_id = emp.id)AS communication
-            FROM employee emp
-            LEFT JOIN address addr ON emp.id = addr.employee_id
-	        LEFT JOIN communication comm ON emp.id = comm.employee_id
-            WHERE emp.id = $employee_id";
+          (SELECT street FROM address addr WHERE addr.type = 'residence' AND addr.employee_id = emp.id)as home_street,
+		  (SELECT street FROM address addr WHERE addr.type = 'office' AND addr.employee_id = emp.id)as office_street,
+           GROUP_CONCAT(addr.city)as city,
+           GROUP_CONCAT(addr.state)as state,
+           GROUP_CONCAT(addr.zip)as zip,
+           GROUP_CONCAT(addr.mobile)as mobile,
+           GROUP_CONCAT(addr.landline)as landline,
+           GROUP_CONCAT(addr.fax)as fax,
+		  (SELECT type FROM communication comm WHERE comm.employee_id = emp.id)AS communication
+          FROM employee emp
+          LEFT JOIN address addr ON emp.id = addr.employee_id
+	      LEFT JOIN communication comm ON emp.id = comm.employee_id
+          WHERE emp.id = $employee_id";
 
-            $result = mysqli_query($this->connect, $select_employee);
+        $result = mysqli_query($this->connect, $select_employee);
 
-          	if(mysqli_num_rows($result) > 0)
-           	{
-           		$user_info = mysqli_fetch_assoc($result);
-           	} 
-
-           	return $user_info;
+        if(mysqli_num_rows($result) > 0)
+        {
+        	$user_info = mysqli_fetch_assoc($result);
+        } 
+        return $user_info;
 	 }
 
 	 /*
@@ -717,9 +706,6 @@ class db_connection
 
 	function test_input($data)
     {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
+       return htmlspecialchars(stripslashes(trim($data)));
     }
 }
