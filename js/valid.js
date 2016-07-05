@@ -1,4 +1,4 @@
-	function valid()
+function valid()
 	{
 	    try {
 	    	var first_name = document.getElementById('fname').value;
