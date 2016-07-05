@@ -29,10 +29,8 @@ class user extends db_connection
 		{
 			session_start();
 			$row = mysqli_fetch_assoc($query); 		
-			$user_id = $row['id'];
-			$user_name = $row['name'];
-			$_SESSION['user_id'] = $user_id;
-			$_SESSION['user_name'] = $user_name;
+			$_SESSION['user_id'] = $row['id'];
+			$_SESSION['user_name'] = $row['name'];
 			return true;
 		}
 	}
