@@ -8,7 +8,7 @@
 	session_start();
 	$obj = new session_check();
 	$logout = $obj->logout();
-
+	
 	var_dump($logout);
 	
 	if($logout)
