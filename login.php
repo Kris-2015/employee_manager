@@ -4,15 +4,12 @@ if (isset($_POST['login']))
 {
 
    // checking the email-id and password is set or not
-
    $email_id = isset($_POST['email_id']) ? $_POST['email_id'] : ' ';
    $password = isset($_POST['password']) ? $_POST['password'] : ' ';
    if (!empty($email_id) && !empty($password))
    {
-
       // instainstiating the class user
-
-      $user_auth = new user('localhost', 'root', 'mindfire', 'employee');
+      $user_auth = new user();
       $result = $user_auth->check($email_id, $password);
       if ($result)
       {
