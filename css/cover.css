@@ -2,5 +2,5 @@
 {
 	color:red;
 	font-size: 15px;
-	display:none;
+	visibility: hidden;						
 }
