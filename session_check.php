@@ -20,10 +20,7 @@
 			{
 				return true;
 			}
-			else
-			{
-				return false;
-			}
+			return false;
 		}
 		/*
 		 * @description: performing logout operation
