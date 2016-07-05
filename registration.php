@@ -837,20 +837,6 @@
                </div>
                <div class="form-group" style="position:relative; left:35%;">
                <div class="col-lg-12">
-               <!-- <input type="submit" name="submit" value=
-                  <?php
-                    /* if(isset($_GET['action']) && $_GET['action']=='update')
-                     {
-                     echo 'update';
-                     }
-                     else
-                     {
-                     echo 'REGISTER';
-                     }*/
-                     ?> class="btn btn-lg btn-info">
-               <button type="reset" class="btn btn-lg btn-danger">Cancel
-               </button> -->
-
                <?php
                   if(isset($_GET['action']) && $_GET['action']=='update')
                   {
