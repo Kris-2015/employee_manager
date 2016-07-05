@@ -24,6 +24,7 @@ include('connection.php');
          </div>
        </nav>
        <h2 align="center"><u>REGISTERED USER</u></h2>
+
        <div class="container">
        <div class="row">
        <div class="col-xs-12">
