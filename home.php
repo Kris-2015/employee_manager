@@ -1,17 +1,12 @@
 <?php
   session_start();
   ini_set("display_error", "1");
-
- include("session_check.php");
+ require_once('session_check.php');
 
  $obj = new session_check(); 
  $check_valid_user = $obj->logged_in();
 
-
-  if($check_valid_user)
-  {
-  }
-  else
+  if(!$check_valid_user)
   {
     if(empty($_SESSION['user_id']))
     {
