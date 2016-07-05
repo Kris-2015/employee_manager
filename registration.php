@@ -227,9 +227,9 @@
                            value="<?php echo (isset($user_info['first_name']) ? $user_info['first_name'] : ''); ?><?php echo isset($_POST['first_name'])? $_POST['first_name'] : ' '; ?>" maxlenght="20"  required/>
                         <span class="error"> 
                             <?php echo "<br>";
-                              echo isset( $_SESSION['error']['first_name_err'] ) ?  $_SESSION['error']['first_name_err']  : ' '; ?> 
+                              echo isset( $_SESSION['error']['first_name_err'] ) ?  $_SESSION['error']['first_name_err']  : ' '; ?>
                         </span>
-                        <p class="error" id="error_firstname">Please enter your first name</p>
+                        <p class="error" id="error_firstname"></p>
                      </div>
                      <div class="form-group">
                         <label for="mname">Middle Name:
@@ -241,6 +241,7 @@
                           echo isset($_SESSION['error']['middle_name_err'])? $_SESSION['error']['middle_name_err'] : ' '; 
                         ?> 
                         </span>  
+                        <p class="error" id="error_middlename"></p>
                      </div>
                      <div class="form-group">
                         <label for="lname">Last Name:
@@ -252,7 +253,7 @@
                            echo isset($_SESSION['error']['last_name_err'])? $_SESSION['error']['last_name_err'] : ' ';
                            ?> 
                         </span>
-                        <p class="error" id="error_lastname">Please enter your last name</p>
+                        <p class="error" id="error_lastname"></p>
                      </div>
                      <br />
                      <br />
@@ -275,7 +276,7 @@
                               value="Mrs"/>Mrs
                            </label>
                         </div>
-                        <p class="error" id="error_prefix">Select anyone option</p>
+                        <p class="error" id="error_prefix"></p>
                      </div>
                      <div class="form-group">
                         <label for="gender" class="control-label col-lg-3">Gender:
@@ -297,7 +298,7 @@
                               value="Female"/>Female
                            </label>
                         </div>
-                        <p class="error" id="error_gender">Select anyone option</p>
+                        <p class="error" id="error_gender"></p>
                      </div>
                      <br />
                      <br />
@@ -309,7 +310,7 @@
                               value="<?php 
                                  echo (isset($user_info['dob']) ? $user_info['dob'] : ''); ?>" required/> 
                         </div>
-                        <p class="error" id="error_dob">Enter your date of birth</p>
+                        <p class="error" id="error_dob"></p>
                      </div>
                      <br />
                      <div class="row">
@@ -328,7 +329,7 @@
                               <?php if(isset($user_info['marital_status']) && $user_info['marital_status']=="Married") echo 'checked';?>
                               />Married
                            </label>
-                           <p class="error" id="error_marital_status">Select anyone option</p>
+                           <p class="error" id="error_marital_status"></p>
                         </div>
                      </div>
                      <br />
@@ -351,7 +352,7 @@
                                     value="Unemployed" />Unemployed
                                  </label>
                               </div>
-                              <p class="error" id="error_employment">Select anyone option</p>
+                              <p class="error" id="error_employment"></p>
                            </div>
                         </div>
                      </div>
@@ -367,7 +368,7 @@
                               echo isset($_SESSION['employer_err'])? $_SESSION['employer_err'] : ' '; 
                               ?> 
                            </span>
-                           <p class="error" id="error_employer">Only aphabets are allowed</p>
+                           <p class="error" id="error_employer"></p>
                         </div>
                      </div>
                      <br>
@@ -381,7 +382,7 @@
                            <?php echo isset($_SESSION['error']['email_id_err'])? $_SESSION['error']['email_id_err'] : ' '; ?>
                         </span>
                      </div>
-                     <p class="error" id="error_email">Enter a valid email id</p>
+                     <p class="error" id="error_email"></p>
                      <br />
                      <br />
 
@@ -393,7 +394,7 @@
                         <span class="error">
                          <?php echo isset($_SESSION['error']['password_err'])? $_SESSION['error']['password_err'] : ' '; ?>
                         </span>
-                        <p class="error" id="error_password">*Mandatory</p>
+                        <p class="error" id="error_password"></p>
                      </div>
                      <br />
                      <br />
@@ -405,7 +406,7 @@
                         <span class="error">
                          <?php echo isset($_SESSION['error']['confirm_password_err'])? $_SESSION['error']['confirm_password_err'] : ' ';?>
                         </span>
-                        <p class="error" id="error_confirm_password">Given password does not match</p>
+                        <p class="error" id="error_confirm_password"></p>
                      </div>
                      <!-- Image Upload -->
                      
@@ -459,7 +460,7 @@
                                   echo isset($_SESSION['error']['home_street_err'])?  $_SESSION['error']['home_street_err'] : '';
                                  ?> 
                                  </span>           
-                                 <p class="error" id="error_home_street">Only alphabets and numbers are allowed</p>
+                                 <p class="error" id="error_home_street"></p>
                               </div>
                            </div>
                            <br>
@@ -475,7 +476,7 @@
                                  ?> 
                                  </span>
                               </div>
-                              <p class="error" id="error_home_city">Only alphabets are allowed</p>
+                              <p class="error" id="error_home_city"></p>
                            </div>
                            <br>
                            <br>
@@ -575,7 +576,7 @@
                                      echo isset($_SESSION['error']['home_state_err'])?  $_SESSION['error']['home_state_err'] : '';
                                   ?> 
                                  </span>
-                                 <p class="error" id="error_home_state">Select anyone option</p>
+                                 <p class="error" id="error_home_state"></p>
                               </div>
                            </div>
                            <br>
@@ -590,7 +591,7 @@
                                    echo isset($_SESSION['error']['home_zip_err'])?  $_SESSION['error']['home_zip_err'] : ''; 
                                   ?>
                                  </span>
-                                 <p class="error" id="error_home_zip">Only numbers are allowed</p>
+                                 <p class="error" id="error_home_zip"></p>
                               </div>
                            </div>
                            <br>
@@ -605,7 +606,7 @@
                                    echo isset($_SESSION['error']['home_mobile_err'])?  $_SESSION['error']['home_mobile_err'] : ''; 
                                   ?> 
                                  </span>
-                                 <p class="error" id="error_home_mobile">Only numbers are allowed</p>
+                                 <p class="error" id="error_home_mobile"></p>
                               </div>
                            </div>
                            <br>
@@ -620,7 +621,7 @@
                                     echo isset($_SESSION['error']['home_landline_err'])?  $_SESSION['error']['home_landline_err'] : '';
                                   ?> 
                                  </span>
-                                 <p class="error" id="error_home_landline">Only numbers are allowed</p>
+                                 <p class="error" id="error_home_landline"></p>
                               </div>
                            </div>
                            <br>
@@ -635,7 +636,7 @@
                                     echo isset($_SESSION['error']['home_fax_err'])?  $_SESSION['error']['home_fax_err'] : '';
                                  ?> 
                                  </span>
-                                 <p class="error" id="error_home_fax">Only numbers are allowed</p>
+                                 <p class="error" id="error_home_fax"></p>
                               </div>
                            </div>
                         </div>
@@ -654,7 +655,7 @@
                                     echo isset($_SESSION['error']['office_street_err'])?  $_SESSION['error']['office_street_err'] : '';
                                  ?> 
                                  </span>
-                                 <p class="error" id="error_office_street">Only alphabets and numbers are allowed</p>
+                                 <p class="error" id="error_office_street"></p>
                               </div>
                            </div>
                            <br>
@@ -669,7 +670,7 @@
                                     echo isset($_SESSION['error']['office_city_err'])?  $_SESSION['error']['office_city_err'] : '';
                                   ?> 
                                  </span>
-                                 <p class="error" id="error_office_city">Only alphabets are allowed</p>
+                                 <p class="error" id="error_office_city"></p>
                               </div>
                            </div>
                            <br>
@@ -763,7 +764,7 @@
                                     echo isset($_SESSION['error']['office_state_err'])?  $_SESSION['error']['office_state_err'] : '';
                                  ?> 
                                  </span>
-                                 <p class="error" id="error_office_state">Select anyone option</p>
+                                 <p class="error" id="error_office_state"></p>
                               </div>
                            </div>
                            <br>
@@ -778,7 +779,7 @@
                                     echo isset($_SESSION['error']['office_zip_err'])?  $_SESSION['error']['office_zip_err'] : '';
                                  ?> 
                                  </span>
-                                 <p class="error" id="error_office_zip">Only numbers are allowed</p>
+                                 <p class="error" id="error_office_zip"></p>
                               </div>
                            </div>
                            <br>
@@ -793,7 +794,7 @@
                                     echo isset($_SESSION['error']['office_mobile_err'])?  $_SESSION['error']['office_mobile_err'] : '';
                                  ?> 
                                  </span>
-                                 <p class="error" id="error_office_mobile">Only numbers are allowed</p>
+                                 <p class="error" id="error_office_mobile"></p>
                               </div>
                            </div>
                            <br>
@@ -808,7 +809,7 @@
                                     echo isset($_SESSION['error']['office_landline_err'])?  $_SESSION['error']['office_landline_err'] : '';
                                   ?> 
                                  </span>
-                                 <p class="error" id="error_office_landline">Only numbers are allowed</p>
+                                 <p class="error" id="error_office_landline"></p>
                               </div>
                            </div>
                            <br>
@@ -823,7 +824,7 @@
                                   echo isset($_SESSION['error']['office_fax_err'])?  $_SESSION['error']['office_fax_err'] : '';
                                  ?> 
                                  </span>
-                                 <p class="error" id="error_office_fax">Only numbers are allowed</p>
+                                 <p class="error" id="error_office_fax"></p>
                               </div>
                            </div>
                         </div>
@@ -861,7 +862,7 @@
                           echo isset($_SESSION['error']['communication_err'])?  $_SESSION['error']['communication_err'] : '';
                         ?> 
                         </span>
-                        <p class="error" id="error_communication">Select anyone option</p>
+                        <p class="error" id="error_communication"></p>
                      </div>
                </div>
                <div class="form-group" style="position:relative; left:35%;">
