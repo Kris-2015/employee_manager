@@ -59,6 +59,30 @@ class user extends db_connection
 		$query = mysqli_query($this->connect, $select_employee);
 		return $query;
 	}
+	function search_user($email,$name)
+	{			
+		$username = $name;
+		$user_email = $email;
+		echo "hello";exit;
+
+		$user_search = "SELECT CONCAT(prefix, ' ',first_name, ' ',middle_name , ' ', last_name)as name, gender, email_id, dob,  marital_status, id,
+			(SELECT GROUP_CONCAT(street, ',',city, ',',state, '-',zip) AS residence 
+			FROM address addr 
+			WHERE type = 'residence' 
+			AND addr.employee_id = e.id)as residence,
+			(SELECT GROUP_CONCAT(street, ',',city, ',',state, '-',zip) AS office 
+			FROM address addr 
+			WHERE type = 'office' 
+			AND addr.employee_id = e.id)as office,
+			(SELECT type FROM communication commu  WHERE commu.employee_id = e.id )as communication
+			FROM employee e
+			WHERE e.first_name = '$username' OR e.email_id = '$user_email'";
+
+		$get_user = mysqli_query($this->connect, $user_search);	
+		echo "<pre>";																												
+		var_dump($get_user);exit;
+		return $get_user;
+	}
 		
 }
 ?>
