@@ -29,7 +29,7 @@ include('connection.php');
        <div class="container">
        <div class="row">
        <div class="col-xs-8">
-          <form class="form-inline" role="form">
+              <form class="form-inline" role="form">
             <div class="form-group">
               <label for="name">Name:</label>
                 <input type="text" name="name" class="form-control" id="name" placeholder="First  Name">
