@@ -5,7 +5,7 @@ $(document).ready(function()
 	  $.ajax(
 	  {
 	    url: '../search_result.php',
-		type: 'post',
+		type: 'POST',
 		data:
 		{
 		  name:$("#name").val(),
@@ -15,15 +15,11 @@ $(document).ready(function()
 		{
 		   //console.log(data);
 		   $("#tab").html(data);
-		}
-		failure:function(data)
-		{
-		    $("").html();		
-		}
+		},
 		error:function(error)
 		{
-		  alert("Please try again later");
-	  	}
+			$("#tab").text("Sorry, search result not found");
+		}
 	  });
 		return false;
 	});
