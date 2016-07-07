@@ -1,15 +1,17 @@
 <?php
     ini_set("display_error","1");
     session_start();
-	require("user.php");
+	  require("user.php");
 
 	//accepting the value through ajax
-	$first_name = $_POST['first_name'];
-	$order = isset($_POST['order']) ? $_POST['order'] : ' ' ;
+	
+	$operation = explode('-', $_POST['name']);
+	$order = strtoupper($operation[0]);
+	$field_name = $operation[1];
 
 	$sort = new user();
 	$data = [];
-	$result  = $sort->sorting($first_name,$order1,$order2);
+	$result  = $sort->sorting($field_name,$order);
 
 	if (mysqli_num_rows($result) > 0)
     {
@@ -23,6 +25,6 @@
         echo 'else';
     }
 
- json_encode($data);
-
+ echo json_encode($data);
+ exit;
 ?>
