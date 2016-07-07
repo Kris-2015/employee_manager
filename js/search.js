@@ -4,7 +4,7 @@ $(document).ready(function()
 	{	
 	  $.ajax(
 	  {
-	    url: '../test.php',
+	    url: '../search_result2.php',
 		type: 'POST',
 		dataType: 'json',
 		data:
@@ -39,19 +39,20 @@ $(document).ready(function()
 	});
 
 	$(".class_order").on("click", function(){
-		console.log(this);
-
+		/*console.log(this);
+		return false;*/
 		$.ajax(
 		{
 			url:'../sort.php',
-			type:'POST'
+			type:'POST',
 			dataType:'json',
 			data:
 			{
-			    name: $(this).(".class-name").val();
-			}
+			    name:$(this).attr("id"),
+			},
 			success:function(data)
 			{
+				console.log(data);
 			    var sort_data = "";
 			    for(var key in data)
 			    {
@@ -70,6 +71,8 @@ $(document).ready(function()
 			    		sort_data += "</tr>";
 			    	}
 			    }
+
+			    $("#tab tbody").html(sort_data);
 			}
 
 		});
