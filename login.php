@@ -22,7 +22,7 @@ if (isset($_POST['login']))
    }
    else
    {
-      $error = "invalid credential";
+      $error = "enter your Email id and Password";
    }
 }
 
