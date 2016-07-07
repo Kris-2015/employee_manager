@@ -38,7 +38,7 @@ include('connection.php');
                 <label for="email">Email:</label>
                   <input type="text" name="email" class="form-control" id="email" placeholder="Email">
             </div>  
-               <button type="submit" class="btn btn-info" id="onsubmit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+               <button type="button" class="btn btn-info" id="onsubmit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
             </form>   
        </div><br><br> 
        <div class="col-xs-12" id="tab">
@@ -48,9 +48,10 @@ include('connection.php');
        <table class="table table-bordered">
        <thead>
           <tr>
-             <td align="center"><u>NAME</u></td>
+             <td align="center" id="name_sort"><u>NAME</u><br><button type="button" class="btn btn-default btn-xs class_order" id="asc-first_name"><span class="glyphicon glyphicon-menu-up"></span></button><button type="button" class="btn btn-default btn-xs class_order" id="desc-first_name"><span class="glyphicon glyphicon-menu-down"></span></button></td>
              <td align="center"><u>GENDER</u></td>
-             <td align="center"><u>DOB</u></td>
+             <td align="center"><u>DOB</u><br><button type="button" class="btn btn-default btn-xs class_order" id="asc-dob"><span class="glyphicon glyphicon-menu-up"></span></button><button type="button" class="btn btn-default btn-xs class_order" id="desc-dob"><span class="glyphicon glyphicon-menu-down"></span></button></td>
+             <td align="center"><u>email id</u><br><button type="button" class="btn btn-default btn-xs class_order" id="asc-email_id"><span class="glyphicon glyphicon-menu-up"></span></button><button type="button" class="btn btn-default btn-xs class_order" id="desc-email_id" ><span class="glyphicon glyphicon-menu-down"></span></button></td>
              <td align="center"><u>Marital Status</u></td>
              <td align="center"><u>OFFICIAL ADDRESS</u></td>
              <td align="center"><u>RESIDENCE ADDRESS</u></td>
@@ -71,6 +72,7 @@ include('connection.php');
                    echo "<td>" . $row["name"];
                    echo "<td>" . $row["gender"] . "</td>";
                    echo "<td>" . $row["dob"] . "</td>";
+                   echo "<td>" . $row["email_id"] . "</td>";
                    echo "<td>" . $row["marital_status"] . "</td>";
                    echo "<td>" . $row["office"] . "</td>";
                    echo "<td>" . $row["residence"] . "</td>";
