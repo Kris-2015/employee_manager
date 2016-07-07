@@ -88,9 +88,9 @@ class user extends db_connection
 		return $get_user;
 	}
 
-	public function sorting($f_name, $order)
+	public function sorting($field_name, $order)
 	{
-		$first_name = $f_name;
+		$first_name = $field_name;
 		$orderby = $order;
 
 		$sort_query = "SELECT CONCAT(prefix, ' ',first_name, ' ',middle_name , ' ', last_name)as name, gender, email_id, dob,  marital_status, id,
@@ -104,7 +104,7 @@ class user extends db_connection
 			AND addr.employee_id = e.id)as office,
 			(SELECT type FROM communication commu  WHERE commu.employee_id = e.id )as communication
 			FROM employee e
-			ORDER BY '$first_name'  $orderby	  
+			ORDER BY $first_name $orderby	  
 			 ";
 
 		return mysqli_query($this->connect, $sort_query);
