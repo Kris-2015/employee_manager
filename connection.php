@@ -342,6 +342,8 @@ class db_connection
 			'first_name' => 'only alphabets are allowed',
 			'middle_name' => 'only alphabets are allowed',
 			'last_name' => 'only alphabets are allowed',
+			'password' => 'password must not be less than 6 characters',
+			'confirm_password' => 'password not matching',
 			'image' => 'kindly enter the image ',
 			'employer' => 'only alphabets are allowed',
 			'home_street' => 'alphabets and numbers only',
@@ -400,7 +402,7 @@ class db_connection
 			}
 		}
 
-		if (isset($input['last_name']))
+		if (isset($input['last_name']) && !empty($input["last_name"]))
 		{
 			$last_name = $this->test_input($input["last_name"]);
 
@@ -422,7 +424,7 @@ class db_connection
 			$error++;
 		}
 
-		if (isset($input["employer"]))
+		if (isset($input["employer"]) && !empty($input["employer"]))
 		{
 			$employer = $this->test_input($input["employer"]);
 
@@ -449,11 +451,23 @@ class db_connection
 			$_SESSION['error']['password_err'] = $error_space['password'];
 			$error++;
 		}
+		else if(isset($input['password']) && !empty($input['password']))
+		{
+			if(strlen($input['password']) < 6)
+			{
+				$_SESSION['error']['password_err'] = $error_list['password'];
+				$error++;
+			}
+		}
 
 		if (empty($input['confirm_password']))
 		{
 			$_SESSION['error']['confirm_password_err'] = $error_space['confirm_password'];
 			$error++;
+		}
+		else if($input['password'] != $input['confirm_password'])
+		{
+			$_SESSION['error']['confirm_password_err'] = $error_list['confirm_password'];
 		}
 
 		// echo "<pre>";
@@ -475,7 +489,7 @@ class db_connection
 		//     }
 		// }
 
-		if (isset($input["image"]))
+		if (isset($input["image"]) && empty($input["image"]))
 		{
 			$_SESSION['error']['image'] = $error_list['image'];
 			$error++;
