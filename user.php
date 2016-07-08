@@ -12,7 +12,7 @@ class user extends db_connection
 	 * @param : email-id, password 
 	 * @return type: none
 	*/
-	function check($mail_id, $pass)
+	public function check($mail_id, $pass)
 	{
 		$email_id = $this->test_input($mail_id);
 		$password = md5($pass);
@@ -40,7 +40,7 @@ class user extends db_connection
 	 * @param: none
 	 * return: boolean
 	*/
-	function display_user($id)
+	public function display_user($id)
 	{
 		$employee_id = $id;	
 		$select_employee = "SELECT CONCAT(prefix, ' ',first_name, ' ',middle_name , ' ', last_name)as name, gender, email_id, dob,  marital_status, id,
@@ -66,7 +66,7 @@ class user extends db_connection
 	 * @return : array
 	*/
 
-	function search_user($name,$email)
+	public function search_user($name,$email)
 	{			
 		$username = $name;
 		$user_email = $email;
@@ -87,7 +87,11 @@ class user extends db_connection
 		$get_user = mysqli_query($this->connect, $user_search);											
 		return $get_user;
 	}
-
+	/*
+	 * @access: public
+	 * @param: field name and order of arrangement
+	 * @return: array
+	*/
 	public function sorting($field_name, $order)
 	{
 		$first_name = $field_name;
@@ -109,6 +113,33 @@ class user extends db_connection
 
 		return mysqli_query($this->connect, $sort_query);
 	}
+	/*
+	 * @access: public
+	 * @param: start_row and number of rows
+	 * @return: array
+	*/
+	public function pagination($start_row,$number_of_rows)
+	{
+	    $starting_row = $start_row;
+	    $no_of_rows = $number_of_rows;
+
+	    $data = "SELECT id, CONCAT(prefix,' ',first_name,' ',middle_name,' ',last_name)as name, email_id,
+	        gender, dob, marital_status,
+	        (SELECT GROUP_CONCAT(street,',',city,',',state,'-',zip)AS residence
+	        FROM address addr
+	        WHERE type = 'residence'
+	        AND addr.employee_id = e.id)as residence,
+	        (SELECT GROUP_CONCAT(street,',',city,',',state,'-',zip)AS office
+	        FROM address addr
+	        WHERE type = 'office'
+	        AND addr.employee_id = e.id)as office,
+	        (SELECT type FROM communication comm WHERE comm.employee_id = e.id)as communication
+	        FROM employee e 
+	        LIMIT $starting_row , $no_of_rows";
+
+	    return mysqli_query($this->connect, $data);
+	}
+
 		
 }
 ?>
