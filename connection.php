@@ -30,7 +30,7 @@ class db_connection
 	 * @param : integer
 	 * @return type: array
 	*/
-	function display()
+	public function display()
 	{
 		$conn = $this->connect;
 
@@ -49,10 +49,8 @@ class db_connection
 	 * @param: array
 	 * @return : integer
 	*/
-
-	function insert($input = array())
+	public function insert($input = array())
 	{
-
 	    $first_name = $input['input_data']['first_name'];
 	    $middle_name = isset($input['input_data']['middle_name']) ? $input['input_data']['middle_name'] : ' ';
 	    $last_name = $input['input_data']['last_name'];
@@ -120,13 +118,12 @@ class db_connection
 	   	     exit;
 	    }
    }
-
 	/*
 	 * @access: public
 	 * @param: file
 	 * @return: string
 	*/
-	function image_upload($file)
+	public function image_upload($file)
 	{
 	 	$errors;
 	 	$file_name  = $file['name'];
@@ -153,17 +150,14 @@ class db_connection
 			}
 		} 
 	}
-
 	/*
 	 * @access: public
 	 * @param: integer, POST data
 	 * @return:
 	*/
-
-	function update($id,$input)
+	public function update($id,$input)
 	{
 		$data = $input;
-
 		$employee_id = $id;
 		$first_name = isset($input['input_data']['first_name']) ? $input['input_data']['first_name'] : ' ';
 		$middle_name = isset($input['input_data']['middle_name']) ? $input['input_data']['middle_name'] : ' ';
@@ -250,16 +244,14 @@ class db_connection
 		header("location:/profile.php");
 		exit;
 	 }
-
 	 /*
 	  * @access: public
 	  * @param: integer
 	  * @return: array
 	 */
-	function delete($id)
+	public function delete($id)
 	{
 	  $employee_id = $id;
-
 	  $delete = "DELETE employee, address, communication FROM employee
 	    LEFT JOIN  address ON employee.id = address.employee_id
 		LEFT JOIN  communication ON employee.id = communication.employee_id
@@ -282,7 +274,7 @@ class db_connection
 	  * @param: integer
 	  * @return: array
 	 */
-	 function retrive_data($id)
+	 public function retrive_data($id)
 	 {
 	 	$employee_id = $id;
 	 	$select_employee = "SELECT emp.* ,
@@ -308,15 +300,13 @@ class db_connection
         } 
         return $user_info;
 	 }
-
 	 /*
 	  * @description: form validation
 	  * @access: public
 	  * @input: POST data
 	  * @return: int
 	 */
-
-	function validation($input)
+	public function validation($input)
 	{
 		$error = 0;
 		$_SESSION['error'] = array();
@@ -697,14 +687,12 @@ class db_connection
 
 
 	}
-
 	/*
 	 * @description: all string data are validated before form validation starts
 	 * @param: string
 	 * @return: string
 	*/
-
-	function test_input($data)
+	public function test_input($data)
     {
        return htmlspecialchars(stripslashes(trim($data)));
     }
