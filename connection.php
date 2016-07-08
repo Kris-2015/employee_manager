@@ -11,14 +11,13 @@ class db_connection
 	private $hostname = "localhost";
 	private $username = "root";
 	private $password = "mindfire";
-	private $database = "employee";
+	private $database = "employee";	
 	public  $connect;
 
 	//contructor to initialse the variable
 	function __construct()
 	{
-		$this->connect = mysqli_connect($this->hostname,$this->username,$this->password,$this->database);
-
+		$this->connect = mysqli_connect($this->hostname , $this->username , $this->password , $this->database);
 		//Error Handling
 		if(mysqli_connect_error())
 		{
@@ -136,6 +135,11 @@ class db_connection
 		if(in_array($file_ext, $extensions) === false)
 		{
 	     	$errors = "extension not allowed, please choose a JPEG or PNG file.";
+		}
+
+		if($file_size >= 2097152)
+		{
+			$errors = "File size must be excately 2MB";
 		}
 
 		if (empty($errors))
