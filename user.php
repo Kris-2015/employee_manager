@@ -7,12 +7,12 @@ include("connection.php");
 */
 class user extends db_connection
 {	
-	/*
+    /*
 	 * @access: public
 	 * @param : email-id, password 
 	 * @return type: none
 	*/
-	function check($mail_id, $pass)
+	public function check($mail_id, $pass)
 	{
 		$email_id = $this->test_input($mail_id);
 		$password = md5($pass);
@@ -40,7 +40,7 @@ class user extends db_connection
 	 * @param: none
 	 * return: boolean
 	*/
-	function display_user($id)
+	public function display_user($id)
 	{
 		$employee_id = $id;	
 		$select_employee = "SELECT CONCAT(prefix, ' ',first_name, ' ',middle_name , ' ', last_name)as name, gender, email_id, dob,  marital_status, id,
