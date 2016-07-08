@@ -31,14 +31,14 @@ class user extends db_connection
 		  	AND password = '$hash_password'";
 
 			$get_user = mysqli_query($this->connect, $select);
-			$row = mysqli_num_rows($get_user);
-
-			if($row == 1)
+			$no_of_user = mysqli_num_rows($get_user);
+			
+			if($no_of_user == 1)
 			{
 				session_start();
-				$row = mysqli_fetch_assoc($query); 		
-				$_SESSION['user_id'] = $row['id'];
-				$_SESSION['user_name'] = $row['name'];
+				$user_info = mysqli_fetch_assoc($get_user);
+				$_SESSION['user_id'] = $user_info['id'];
+				$_SESSION['user_name'] = $user_info['name'];
 				return true;
 			}
 		}
