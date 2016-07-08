@@ -30,8 +30,8 @@ class user extends db_connection
 		  	WHERE email_id = '$email_id' 
 		  	AND password = '$hash_password'";
 
-			$query = mysqli_query($this->connect, $select);
-			$row = mysqli_num_rows($query);
+			$get_user = mysqli_query($this->connect, $select);
+			$row = mysqli_num_rows($get_user);
 
 			if($row == 1)
 			{
@@ -64,9 +64,8 @@ class user extends db_connection
 			(SELECT type FROM communication commu  WHERE commu.employee_id = e.id )as communication
 			FROM employee e
 			WHERE e.id = $employee_id ";
-
-		$query = mysqli_query($this->connect, $select_employee);
-		return $query;
+ 
+		return mysqli_query($this->connect, $select_employee);
 	}
 		
 }
