@@ -1,6 +1,6 @@
 <?php
 include ('user.php');
-
+session_start();
 if (isset($_POST['login']))
 {
    // checking the email-id and password is set or not
@@ -11,16 +11,19 @@ if (isset($_POST['login']))
    $user_auth = new user();
    $result = $user_auth->check($email_id, $password);
    //checking the result is true and false
+   //var_dump($result);exit;   
    if ($result)
    {
+      
       header("location:/home.php");
    }
    else
    {
+      echo "out";exit;
       $error = "invalid mail id or password";
    }
+   echo "hello";exit;
 }
-
 ?>
 
 <!DOCTYPE html>
