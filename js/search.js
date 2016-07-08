@@ -38,8 +38,8 @@ $(document).ready(function()
 		});
 	});
 
-	$(".class_order").on("click", function(){
-		
+	$(".class_order").on("click", function()
+	{
 	  $.ajax(
 	  {
 		url:'../sort.php',
@@ -69,9 +69,10 @@ $(document).ready(function()
 		    		sort_data += "</tr>";
 			    }
 			}
-			    $("#tab tbody").html(sort_data);
+			 $("#tab tbody").html(sort_data);
 		}
-
 	});
   });
+
+
 });
