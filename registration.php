@@ -17,13 +17,10 @@
       header("location:home.php");
    }
    
-
    if(isset($_POST['update']))
-   {
-      
+   {   
       $error = $obj->validation($_POST);
 
-      //$error = validation($_POST);
       if($error == 0)
       {
          session_unset($_SESSION['error']);
@@ -838,16 +835,12 @@
                <div class="form-group" style="position:relative; left:35%;">
                <div class="col-lg-12">
                <?php
-                  if(isset($_GET['action']) && $_GET['action']=='update')
-                  {
-                    echo  "<input type = 'submit' name = 'update' value = 'update' class = 'btn btn-lg btn-info'>
-                           <input type = 'reset'  class = 'btn btn-lg btn-danger>' ";
-                  }
-                  else
-                  {
-                     echo  "<input type = 'submit' name = 'submit' value = 'REGISTER' class = 'btn btn-lg btn-info'>
-                            <input type = 'reset'  class = 'btn btn-lg btn-danger>' ";  
-                  }
+
+                  $input_name = (isset($_GET['action']) && $_GET['action'] == 'update') ? 'update' : 'submit';
+                  $input_value = (isset($_GET['action']) && $_GET['action']== 'update') ? 'update' : 'REGISTER';
+
+                  echo "<input type = 'submit' name = $input_name value = $input_value class = 'btn btn-lg btn-info'>
+                        <input type = 'reset'  class = 'btn btn-lg btn-danger>'";
                ?>
                </div>
                </div>
