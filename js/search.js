@@ -38,48 +38,13 @@ $(document).ready(function()
 		});
 	});
 
-	$(".class_order").on("click", function()
-	{
-	  $.ajax(
-	  {
-		url:'../sort.php',
-		type:'POST',
-		dataType:'json',
-		data:
-		{
-		    name:$(this).attr("id"),
-		},
-		success:function(data)
-		{
-		    var sort_data = "";
-		    for(var key in data)
-		    {
-		    	if(data.hasOwnProperty(key))
-		    	{
-		    		sort_data += "<tr>";
-	    			    sort_data += "<td>" + data[key]["name"] + "</td>";
-	    			    sort_data += "<td>" + data[key]["gender"] + "</td>";
-	    			    sort_data += "<td>" + data[key]["dob"] + "</td>";
-	    			    sort_data += "<td>" + data[key]["email_id"] + "</td>";
-	    			    sort_data += "<td>" + data[key]["marital_status"] + "</td>";
-	    			    sort_data += "<td>" + data[key]["office"] + "</td>";
-	    			    sort_data += "<td>" + data[key]["residence"] + "</td>";
-	    			    sort_data += "<td>" + data[key]["communication"] + "</td>";
-	    			    sort_data += "<td>" + '<a href="/registration.php/?emp_id=' + data[key]["id"] +'&action=delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>&nbsp;&nbsp;&nbsp;<a href="/registration.php/?emp_id='+ data[key]["id"] + '&action=update"<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>' +"</td>";
-		    		sort_data += "</tr>";
-			    }
-			}
-			 $("#tab tbody").html(sort_data);
-		   }
-	    });
-    });
 
-	get_data(0);
+    //getting the field name and orderby value
+
+	get_data(0,'asc-first_name');
 	//ajax function for listing the number of data
-	function get_data(page_val)
+	function get_data(page_val,sort)
 	{
-		console.log(page_val);
-
 		$.ajax({
 			url:'paginate.php',
 			dataType: 'json',
@@ -87,11 +52,13 @@ $(document).ready(function()
 			data:
 			   {
                  page:page_val,
+                 get_sort:sort,
 			   },
 			success:function(result)
 			{
-				var show_data = "";
-				
+				var show_data = " ";
+				var add_pagination = " ";
+
 				for(var key in result.data)
 				{
 					
@@ -110,17 +77,46 @@ $(document).ready(function()
 						show_data += "</tr>";
 					}
 				}
+
+				var total_page_number = result.total_pages;
+
+				for(var i=0; i<total_page_number; i++)
+				{
+					var x;
+					if ( i == 0 ) {
+						x = 0;
+					}
+					else {
+						x = i * 3;
+					}
+
+					var active = (page_val == x) ? 'active' : '';
+					add_pagination += '<li class="page ' + active + '" id='+ x +'><a href="#">'+ (i+1) +'</a></li>';
+				}
 				$(".page_body").html(show_data);
+				$("#display_button").html(add_pagination);
 			}
 
 		});
 	}
 
 	//ajax function for listing the number of page number
-	$(".pagination").on("click", function()
+	$(document).on("click",".pagination li", function(e)
 	{
-      var num = $('#paging').attr("data-attr");
-      console.log(num);
+	   e.preventDefault();
+       var num = this.id;
+       $(this).addClass('active');
+       get_data(num);
+	});
+
+	$(document).on("click",".class_order", function(e)
+	{
+	   e.preventDefault();
+	   var page_no = $('.pagination .active').attr('id');
+	   var sort = $(this).attr('id');
+
+	   console.log(sort);
+       get_data(page_no, sort);
 	});
 
 });
