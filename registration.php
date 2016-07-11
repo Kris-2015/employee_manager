@@ -453,7 +453,7 @@
                               <label class="control-label col-xs-4" for="home_city">City:
                               </label>
                               <div class="col-xs-8">
-                                 <input type="text" class="form-control" id="home_city" name="home_city" value="<?php echo (isset($home_city) ? $home_city : ''); ?>" required maxlength="20">
+                                 <input type="text" class="form-control" id="home_city" name="home_city" value="<?php echo (isset($home_city) ? $home_city : ''); ?>" required maxlength="10">
                                  <span class="error"> 
                                  <?php echo "<br>";
                                      echo isset($_SESSION['error']['home_city_err'])?  $_SESSION['error']['home_city_err'] : ''; 
@@ -567,7 +567,7 @@
                               <label class="control-label col-xs-4" for="home_zip">Zip:
                               </label>
                               <div class="col-xs-8">
-                                 <input type="text" id="home_zip" name="home_zip" class="form-control" value="<?php echo (isset($home_zip) ? $home_zip : ''); ?>" required maxlenght>
+                                 <input type="text" id="home_zip" name="home_zip" class="form-control" value="<?php echo (isset($home_zip) ? $home_zip : ''); ?>" required maxlength="10">
                                  <span class="error"> 
                                  <?php echo "<br>";
                                    echo isset($_SESSION['error']['home_zip_err'])?  $_SESSION['error']['home_zip_err'] : ''; 
