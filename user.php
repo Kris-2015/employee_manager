@@ -92,7 +92,7 @@ class user extends db_connection
 	 * @param: field name and order of arrangement
 	 * @return: array
 	*/
-	public function sorting($field_name, $order)
+	public function sort($field_name, $order)
 	{
 		$first_name = $field_name;
 		$orderby = $order;
@@ -118,10 +118,10 @@ class user extends db_connection
 	 * @param: start_row and number of rows
 	 * @return: array
 	*/
-	public function pagination($start_row,$number_of_rows)
+	public function pagination($start_row)
 	{
-	    $starting_row = $start_row;
-	    $no_of_rows = $number_of_rows;
+	    $starting_row = (int)$start_row;
+	    //$no_of_rows = $number_of_rows;
 
 	    $data = "SELECT id, CONCAT(prefix,' ',first_name,' ',middle_name,' ',last_name)as name, email_id,
 	        gender, dob, marital_status,
@@ -135,9 +135,11 @@ class user extends db_connection
 	        AND addr.employee_id = e.id)as office,
 	        (SELECT type FROM communication comm WHERE comm.employee_id = e.id)as communication
 	        FROM employee e 
-	        LIMIT $starting_row , $no_of_rows";
+	        LIMIT $starting_row , 3";
 
 	    return mysqli_query($this->connect, $data);
+
+
 	}
 
 		
