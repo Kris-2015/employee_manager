@@ -1,7 +1,8 @@
 <?php 
 ini_set("display_error","1");
 session_start();                            
-include('connection.php');
+//include('connection.php');
+include('DataFilter.php');
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +42,7 @@ include('connection.php');
                <button type="button" class="btn btn-info" id="onsubmit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
             </form>   
        </div><br><br> 
-       <div class="col-xs-12" id="tab">
+       <div class="col-xs-12 col-md-12" id="tab">
        <div class="panel panel-default">
        <div class="panel-body">
        <div class="table-responsive">
@@ -59,35 +60,26 @@ include('connection.php');
              <td align="center"><u>ACTION</u></td>
           </tr>
        </thead>
-       <tbody>
-       <?php
-            $obj = new db_connection();
-            $result = $obj->display();
+       <tbody class="page_body">
 
-            if (mysqli_num_rows($result) > 0)
-            {
-              while ($row = mysqli_fetch_assoc($result))
-              {
-                echo "<tr>";
-                   echo "<td>" . $row["name"];
-                   echo "<td>" . $row["gender"] . "</td>";
-                   echo "<td>" . $row["dob"] . "</td>";
-                   echo "<td>" . $row["email_id"] . "</td>";
-                   echo "<td>" . $row["marital_status"] . "</td>";
-                   echo "<td>" . $row["office"] . "</td>";
-                   echo "<td>" . $row["residence"] . "</td>";
-                   echo "<td>" . $row["communication"] . "</td>";
-                   echo '<td>' . '<a href="/registration.php/?emp_id=' . $row['id'] . '&action=delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>' . '&nbsp;&nbsp;&nbsp;' . '<a href="/registration.php/?emp_id=' . $row['id'] . '&action=update"<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>' . '</td>';
-                echo "</tr>";
-               }
-             }
-        ?>
         </tbody>
        </table>
        </div>
       </div>
      </div>
     </div>
+
+    <!-- pagination links --> 
+       <div class="col-xs-8 col-xs-offset-4">
+          <nav>
+            <ul class="pagination">
+             <li id="paging" data-attr='0'><a href="#">1</a></li>
+             <li id="paging" data-attr='3'><a href="#">2</a></li>
+             <li id="paging" data-attr='6'><a href="#">3</a></li>
+             <li id="paging" data-attr='9'><a href="#">4</a></li>
+            </ul>
+       </nav>
+       </div>
    </div>
   </div>      
  </body>
