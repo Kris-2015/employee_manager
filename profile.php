@@ -6,12 +6,9 @@ include('session_check.php');
 $obj = new session_check();
 $check_valid_user = $obj->logged_in();
 
-if(!$check_valid_user)
+if(!$check_valid_user && empty($_SESSION['user_id']))
 {
-  if(empty($_SESSION['user_id']))
-  {
-    header('location:login.php?logged_out=1');
-  }
+  header('location:login.php?logged_out=1');
 }
 ?>
 
