@@ -40,8 +40,7 @@ class db_connection
 			(SELECT type FROM communication commu  WHERE commu.employee_id = e.id )as communication
 			FROM employee e " ;
 
-	 	$result = mysqli_query($conn,$display);
-	 	return $result;
+	 	return mysqli_query($conn,$display);
 	}
 
 	/*
