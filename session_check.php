@@ -16,7 +16,8 @@
 		function logged_in()
 		{
 			//checking the session variable user_id is present or not
-			if(isset($_SESSION["user_id"]) && !empty($_SESSION["user_id"]))
+			$session_id = $_SESSION["user_id"];
+			if(isset($session_id) && !empty($session_id))
 			{
 				return true;
 			}
