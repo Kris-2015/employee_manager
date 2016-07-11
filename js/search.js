@@ -70,9 +70,57 @@ $(document).ready(function()
 			    }
 			}
 			 $("#tab tbody").html(sort_data);
-		}
-	});
-  });
+		   }
+	    });
+    });
 
+	get_data(0);
+	//ajax function for listing the number of data
+	function get_data(page_val)
+	{
+		console.log(page_val);
+
+		$.ajax({
+			url:'paginate.php',
+			dataType: 'json',
+			type: 'POST',
+			data:
+			   {
+                 page:page_val,
+			   },
+			success:function(result)
+			{
+				var show_data = "";
+				
+				for(var key in result.data)
+				{
+					
+					if(result.data.hasOwnProperty(key))
+					{
+						show_data += "<tr>";
+							show_data += "<td>" + result.data[key]["name"] + "</td>";
+	    			        show_data += "<td>" + result.data[key]["gender"] + "</td>";
+	    			        show_data += "<td>" + result.data[key]["dob"] + "</td>";
+	    			        show_data += "<td>" + result.data[key]["email_id"] + "</td>";
+	    			        show_data += "<td>" + result.data[key]["marital_status"] + "</td>";
+	    			        show_data += "<td>" + result.data[key]["office"] + "</td>";
+	    			        show_data += "<td>" + result.data[key]["residence"] + "</td>";
+	    			        show_data += "<td>" + result.data[key]["communication"] + "</td>";
+	    			        show_data += "<td>" + '<a href="/registration.php/?emp_id=' + result.data[key]["id"] +'&action=delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>&nbsp;&nbsp;&nbsp;<a href="/registration.php/?emp_id='+ result.data[key]["id"] + '&action=update"<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>' +"</td>";
+						show_data += "</tr>";
+					}
+				}
+				$(".page_body").html(show_data);
+			}
+
+		});
+	}
+
+	//ajax function for listing the number of page number
+	$(".pagination").on("click", function()
+	{
+      var num = $('#paging').attr("data-attr");
+      console.log(num);
+	});
 
 });
