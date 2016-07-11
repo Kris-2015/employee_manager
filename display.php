@@ -1,10 +1,8 @@
 <?php 
 ini_set("display_error","1");
 session_start();                            
-//include('connection.php');
 include('DataFilter.php');
 ?>
-
 <!DOCTYPE html>
 <html>
    <head>
@@ -49,7 +47,7 @@ include('DataFilter.php');
        <table class="table table-bordered">
        <thead>
           <tr>
-             <td align="center" id="name_sort"><u>NAME</u><br><button type="button" class="btn btn-default btn-xs class_order" id="asc-first_name"><span class="glyphicon glyphicon-menu-up"></span></button><button type="button" class="btn btn-default btn-xs class_order" id="desc-first_name"><span class="glyphicon glyphicon-menu-down"></span></button></td>
+             <td align="center"><u>NAME</u><br><button type="button" class="btn btn-default btn-xs class_order" id="asc-first_name"><span class="glyphicon glyphicon-menu-up"></span></button><button type="button" class="btn btn-default btn-xs class_order" id="desc-first_name"><span class="glyphicon glyphicon-menu-down"></span></button></td>
              <td align="center"><u>GENDER</u></td>
              <td align="center"><u>DOB</u><br><button type="button" class="btn btn-default btn-xs class_order" id="asc-dob"><span class="glyphicon glyphicon-menu-up"></span></button><button type="button" class="btn btn-default btn-xs class_order" id="desc-dob"><span class="glyphicon glyphicon-menu-down"></span></button></td>
              <td align="center"><u>email id</u><br><button type="button" class="btn btn-default btn-xs class_order" id="asc-email_id"><span class="glyphicon glyphicon-menu-up"></span></button><button type="button" class="btn btn-default btn-xs class_order" id="desc-email_id" ><span class="glyphicon glyphicon-menu-down"></span></button></td>
@@ -70,15 +68,12 @@ include('DataFilter.php');
     </div>
 
     <!-- pagination links --> 
-       <div class="col-xs-8 col-xs-offset-4">
+       <div  class="col-xs-8 col-xs-offset-4">
           <nav>
-            <ul class="pagination">
-             <li id="paging" data-attr='0'><a href="#">1</a></li>
-             <li id="paging" data-attr='3'><a href="#">2</a></li>
-             <li id="paging" data-attr='6'><a href="#">3</a></li>
-             <li id="paging" data-attr='9'><a href="#">4</a></li>
+            <ul id="display_button" class="pagination">
+             
             </ul>
-       </nav>
+         </nav>
        </div>
    </div>
   </div>      
