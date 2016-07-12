@@ -89,7 +89,6 @@ $(document).ready(function()
 					else {
 						x = i * 3;
 					}
-
 					var active = (page_val == x) ? 'active' : '';
 					add_pagination += '<li class="page ' + active + '" id='+ x +'><a href="#">'+ (i+1) +'</a></li>';
 				}
@@ -114,6 +113,7 @@ $(document).ready(function()
 	   e.preventDefault();
 	   var page_no = $('.pagination .active').attr('id');
 	   var sort = $(this).attr('id');
+	   // var current_page = $($)
 
 	   console.log(sort);
        get_data(page_no, sort);
