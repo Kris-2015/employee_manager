@@ -27,7 +27,7 @@ include('DataFilter.php');
        <h2 align="center"><u>REGISTERED USER</u></h2>
        <div class="container">
        <div class="row">
-       <div class="col-xs-8">
+       <div class="col-xs-6">
               <form class="form-inline" role="form">
             <div class="form-group">
               <label for="name">Name:</label>
@@ -39,7 +39,11 @@ include('DataFilter.php');
             </div>  
                <button type="button" class="btn btn-info" id="onsubmit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
             </form>   
-       </div><br><br> 
+       </div>
+       <div class="col-xs-6 pull-right">
+       
+       </div>
+       <br><br> 
        <div class="col-xs-12 col-md-12" id="tab">
        <div class="panel panel-default">
        <div class="panel-body">
