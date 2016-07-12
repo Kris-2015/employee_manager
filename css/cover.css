@@ -7,3 +7,10 @@
 {
 	background-image: url(image/wood.jpg);
 }
+
+.welcome_user
+{
+	font-family: "Times New Roman", Times, serif;
+	font-size: 3em;
+	font-weight: bold;
+}
