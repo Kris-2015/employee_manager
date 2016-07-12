@@ -12,7 +12,7 @@ if (isset($_POST['login']))
    $result = $user_auth->check($email_id, $password);
    if ($result)
    {
-      header("location:/home.php");
+      header("location: acl.php");
    }
    else
    {
