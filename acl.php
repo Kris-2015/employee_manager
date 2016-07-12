@@ -1,11 +1,11 @@
 <?php
-// session_start();
-// include("control_permission.php");
+session_start();
+include("control_permission.php");
 
-// $user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['user_id'];
 
-// $obj = new ACL();
-// $get_role = $obj->getrole($user_id);
+$obj = new ACL();
+$get_role = $obj->getrole($user_id);
 
 ?>
 <!DOCTYPE html>
@@ -29,7 +29,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Welcome, <?php echo isset($_SESSION['user_name'])? $_SESSION['user_name'] : '' ; ?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="/profile.php">Profile</a></li>
-            <li><a href="/display.php"> Display </a></li>
+            <li><a href="/display.php"> List </a></li>
             <li><a href="/logout.php"> Logout </a></li>
           </ul>
         </li>
