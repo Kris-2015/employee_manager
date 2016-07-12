@@ -103,13 +103,13 @@ class db_connection
 
 	    	  mysqli_close($this->connect);
 	    	  echo "<script>alert('Registered Successfully..');</script>";
-	    	  header("location:login.php");
+	    	  header("location: login.php");
 	    	  exit;	
 	    	}
 	    	else
 	    	{
 	    	   echo "<script>alert('some error occured.....try again later')</script>";
-	    	   header("location:registration.php");
+	    	   header("location: registration.php");
 	    	   exit;
 	        }
     	}
@@ -246,7 +246,7 @@ class db_connection
 		 	$result_communication = mysqli_query($this->connect, $update_communication);
 		 }
 		 mysqli_close($this->connect);
-		header("location:/profile.php");
+		header("location: profile.php");
 		exit;
 	 }
 
