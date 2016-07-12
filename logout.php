@@ -10,7 +10,7 @@
 	$logout = $obj->logout();
 	if($logout)
 	{
-		header("Location: login.php");
+		header("location: login.php");
 	}
 
 ?>
