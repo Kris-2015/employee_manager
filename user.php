@@ -12,20 +12,16 @@ class user extends db_connection
 	 * @param : email-id, password 
 	 * @return type: none
 	*/
-
 	public function check($mail_id, $pass)
 	{
 		$email_id = $this->test_input($mail_id);
 		$password = md5($pass);
-
 		$select = "SELECT id, CONCAT(first_name, ' ',last_name)as name 
 		  FROM employee
 		  WHERE email_id = '$email_id' 
 		  AND password = '$password'";
-
 		$query = mysqli_query($this->connect, $select);
 		$row = mysqli_num_rows($query);
-
 		if($row == 1)
 		{
 			session_start();
@@ -35,7 +31,6 @@ class user extends db_connection
 			return true;
 		}
 	}
-
 	/*
 	 * @access: public
 	 * @param: none
@@ -58,18 +53,15 @@ class user extends db_connection
 			WHERE e.id = $employee_id ";
 		return mysqli_query($this->connect, $select_employee);
 	}
-
 	/*
 	 * @access:public 
 	 * @param: string
 	 * @return : array
 	*/
-
 	public function search_user($name,$email)
 	{			
 		$username = $name;
 		$user_email = $email;
-
 		$user_search = "SELECT CONCAT(prefix, ' ',first_name, ' ',middle_name , ' ', last_name)as name, gender, email_id, dob,  marital_status, id,
 			(SELECT GROUP_CONCAT(street, ',',city, ',',state, '-',zip) AS residence 
 			FROM address addr 
@@ -84,62 +76,5 @@ class user extends db_connection
 			WHERE e.first_name = '$username' OR e.email_id = '$user_email'";											
 		return mysqli_query($this->connect, $user_search);
 	}
-	/*
-	 * @access: public
-	 * @param: field name and order of arrangement
-	 * @return: array
-	*/
-	/*public function sort($field_name, $order,$start_row)
-	{
-		$fieldname = $field_name;
-		$orderby = $order;
-		//$starting_row = $start_row;
-
-		$sort_query = "SELECT CONCAT(prefix, ' ',first_name, ' ',middle_name , ' ', last_name)as name, gender, email_id, dob,  marital_status, id,
-			(SELECT GROUP_CONCAT(street, ',',city, ',',state, '-',zip) AS residence 
-			FROM address addr 
-			WHERE type = 'residence' 
-			AND addr.employee_id = e.id)as residence,
-			(SELECT GROUP_CONCAT(street, ',',city, ',',state, '-',zip) AS office 
-			FROM address addr 
-			WHERE type = 'office' 
-			AND addr.employee_id = e.id)as office,
-			(SELECT type FROM communication commu  WHERE commu.employee_id = e.id )as communication
-			FROM employee e
-			ORDER BY $first_name $orderby
-			LIMIT $starting_row , 3
-		";
-
-		return mysqli_query($this->connect, $sort_query);
-	}*/
-	/*
-	 * @access: public
-	 * @param: start_row and number of rows
-	 * @return: array
-	*/
-	/*public function pagination($start_row)
-	{
-		$fieldname = $field_name;
-		$orderby = $order;
-	    $starting_row = (int)$start_row;
-	    //$no_of_rows = $number_of_rows;
-
-	    $data = "SELECT id, CONCAT(prefix,' ',first_name,' ',middle_name,' ',last_name)as name, email_id,
-	        gender, dob, marital_status,
-	        (SELECT GROUP_CONCAT(street,',',city,',',state,'-',zip)AS residence
-	        FROM address addr
-	        WHERE type = 'residence'
-	        AND addr.employee_id = e.id)as residence,
-	        (SELECT GROUP_CONCAT(street,',',city,',',state,'-',zip)AS office
-	        FROM address addr
-	        WHERE type = 'office'
-	        AND addr.employee_id = e.id)as office,
-	        (SELECT type FROM communication comm WHERE comm.employee_id = e.id)as communication
-	        FROM employee e 
-	        ORDER BY $first_name $orderby
-	        LIMIT $starting_row , 3";
-
-	    return mysqli_query($this->connect, $data);
-	}*/
 }
 ?>
