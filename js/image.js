@@ -1,14 +1,14 @@
 $(document).on('click', '#close-preview', function(){
-	$('.image-preview').popover('hide');
-	//Hover before close the preview
-	$('.image-preview').hover(
-		function(){
-			$('.image-preview').popover('show');
-		},
-		function(){
-			$('.image-preview').popover('hide');
-		}
-	);
+    $('.image-preview').popover('hide');
+    //Hover before close the preview
+    $('.image-preview').hover(
+        function(){
+            $('.image-preview').popover('show');
+        },
+        function(){
+            $('.image-preview').popover('hide');
+        }
+    );
 
 });
 
