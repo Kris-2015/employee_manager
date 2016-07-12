@@ -16,7 +16,7 @@ class user extends db_connection
 	{
 		$email_id = $this->test_input($mail_id);
 		$password = md5($pass);
-		$select = "SELECT id, CONCAT(first_name, ' ',last_name)as name 
+		$select = "SELECT id, role_id, CONCAT(first_name, ' ',last_name)as name 
 		  FROM employee
 		  WHERE email_id = '$email_id' 
 		  AND password = '$password'";
@@ -28,6 +28,7 @@ class user extends db_connection
 			$row = mysqli_fetch_assoc($query); 		
 			$_SESSION['user_id'] = $row['id'];
 			$_SESSION['user_name'] = $row['name'];
+			$_SESSION['role_id'] = $row['role_id'];
 			return true;
 		}
 	}
