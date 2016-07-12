@@ -1,5 +1,4 @@
 <?php
-
    ini_set("display_errors","1");
    session_start();
    include('connection.php');
@@ -14,7 +13,7 @@
    if($check)
    {
       //if the condition is true, redirect the user to home page
-      header("location:home.php");
+      header("location: home.php");
    }
    
 
@@ -54,7 +53,7 @@
       if($obj->delete($id))
       {
          
-         header("location: /display.php");
+         header("location: display.php");
       }
    }
 
