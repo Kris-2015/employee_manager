@@ -39,12 +39,7 @@ $checking_permission = $obj->isResourceAllowed($_SERVER['REQUEST_URI'], 'all');
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Welcome, <?php echo isset($_SESSION['user_name'])? $_SESSION['user_name'] : '' ; ?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
-          <?php 
-              // echo "<pre>";
-              // print_r($_SESSION['user_permission']);
-              // exit;
-            //if('all' == "$checking_permission" || 'view' == "$checking_permission" || 'update' == "$checking_permission" || 'delete' == "$checking_permission" || 'insert' == "$checking_permission") 
-           //{
+          <?php              
             foreach($_SESSION['user_permission'] as $page=>$val)
             {
               if(basename(__FILE__) == $page)
@@ -53,7 +48,6 @@ $checking_permission = $obj->isResourceAllowed($_SERVER['REQUEST_URI'], 'all');
               }
               echo '<li><a href="' . $page . '.php">' . $page.'</a></li>' . "\n";
             }
-           //}
           ?>  
           <li><a href=" logout.php"> Logout </a></li>
           </ul>
@@ -67,12 +61,13 @@ $checking_permission = $obj->isResourceAllowed($_SERVER['REQUEST_URI'], 'all');
 	<div class="col-xs-6 col-xs-offset-4">
 	  <p class="welcome_user">Welcome <?php echo $name; ?></p>
   <?php
+
     if(isset($_SESSION['display_error']['display']))
     {
      echo '<div class="alert alert-danger" role="alert">
       <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
       <span class="sr-only">Error:</span>'
-        . $_SESSION['display_error'] .
+        . $_SESSION['display_error']['display'] .
     '</div>
    </div>
   </div>';
@@ -82,7 +77,7 @@ $checking_permission = $obj->isResourceAllowed($_SERVER['REQUEST_URI'], 'all');
    echo '<div class="alert alert-danger" role="alert">
       <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
       <span class="sr-only">Error:</span>'
-        . $_SESSION['display_error'] .
+        . $_SESSION['display_error']['registration'] .
     '</div>
    </div>
   </div>'; 
@@ -105,6 +100,5 @@ $checking_permission = $obj->isResourceAllowed($_SERVER['REQUEST_URI'], 'all');
  }
  ?>
  </div>
-
 </body>
 </html>
