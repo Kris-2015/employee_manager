@@ -1,8 +1,8 @@
 $(document).ready(function()
 {
-	$("#onsubmit").on("click",function()
-	{	
-	  $.ajax(
+    $("#onsubmit").on("click",function()
+    {	
+    $.ajax(
 	  {
 	    url: '../search_result2.php',
 		type: 'POST',
@@ -28,7 +28,7 @@ $(document).ready(function()
 		   		    arr_data += "<td>" + data[key]["office"] + "</td>" ;
 		   		    arr_data += "<td>" + data[key]["residence"] + "</td>"; 
 		   		    arr_data += "<td>" + data[key]["communication"] + "</td>";
-		   		    arr_data += "<td>" + '<a href="/registration.php/?emp_id=' + data[key]["id"] +'&action=delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>&nbsp;&nbsp;&nbsp;<a href="/registration.php/?emp_id='+ data[key]["id"] + '&action=update"<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>' +"</td>";
+		   		    arr_data += "<td>" + '<a href=" registration.php/?emp_id=' + data[key]["id"] +'&action=delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>&nbsp;&nbsp;&nbsp;<a href=" registration.php/?emp_id='+ data[key]["id"] + '&action=update"<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>' +"</td>";
 		   		arr_data += "</tr>";
 		   	}
 		   }
@@ -73,7 +73,7 @@ $(document).ready(function()
 	    			        show_data += "<td>" + result.data[key]["office"] + "</td>";
 	    			        show_data += "<td>" + result.data[key]["residence"] + "</td>";
 	    			        show_data += "<td>" + result.data[key]["communication"] + "</td>";
-	    			        show_data += "<td>" + '<a href="/registration.php/?emp_id=' + result.data[key]["id"] +'&action=delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>&nbsp;&nbsp;&nbsp;<a href="/registration.php/?emp_id='+ result.data[key]["id"] + '&action=update"<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>' +"</td>";
+	    			        show_data += "<td>" + '<a href=" registration.php/?emp_id=' + result.data[key]["id"] +'&action=delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>&nbsp;&nbsp;&nbsp;<a href=" registration.php/?emp_id='+ result.data[key]["id"] + '&action=update"<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>' +"</td>";
 						show_data += "</tr>";
 					}
 				}
