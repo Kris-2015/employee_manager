@@ -22,10 +22,9 @@ $page = new data_filter();
 $data = $page->paging($field_name,$order,$start_row);
 
 //privileges of the user
-echo "<pre>";
-print_r($_SESSION['user_permission']);
-exit;
-$result= ['total_pages' => $total_pages, 'data' => $data];
+$privileges = $_SESSION['user_permission']['display'];
+
+$result= ['total_pages' => $total_pages, 'data' => $data, 'privileges' => $privileges];
 echo json_encode($result);
 exit;
 ?>
