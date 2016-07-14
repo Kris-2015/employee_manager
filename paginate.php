@@ -1,6 +1,8 @@
 <?php
 ini_set("display_error","1");
+session_start();
 require("DataFilter.php");
+require("control_permission.php");
 
 $sort_order = isset($_POST['get_sort']) ? $_POST['get_sort'] : 'asc-first_name';
 
@@ -19,6 +21,10 @@ $total_pages = ceil(mysqli_num_rows($obj->display())/$number_of_rows);
 $page = new data_filter();
 $data = $page->paging($field_name,$order,$start_row);
 
+//privileges of the user
+echo "<pre>";
+print_r($_SESSION['user_permission']);
+exit;
 $result= ['total_pages' => $total_pages, 'data' => $data];
 echo json_encode($result);
 exit;
