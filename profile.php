@@ -83,7 +83,7 @@ if(!$check_valid_user && empty($_SESSION['user_id']))
                    $check = $_SESSION['user_permission'][preg_replace('/\.[^.\s]{3,4}$/', '',  basename(__FILE__))];
                        if($check == 'update')
                        {
-                        echo '<td>' . '<a href="/registration.php/?emp_id=' . $row['id'] . '&action=update"<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>' . '</td>';  
+                        echo '<td>' . '<a href="/registration.php/?emp_id=' . $row['id'] . '&action=update"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>' . '</td>';  
                        }
                        else if($check == 'delete')
                        {
@@ -91,7 +91,7 @@ if(!$check_valid_user && empty($_SESSION['user_id']))
                        }
                        else if($check == 'all')
                        {
-                        echo '<td>' . '<a href="/registration.php/?emp_id=' . $row['id'] . '&action=delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>' . '&nbsp;&nbsp;&nbsp;' .'<a href="/registration.php/?emp_id=' . $row['id'] . '&action=update"<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>' . '</td>';
+                        echo '<td>' . '<a href="/registration.php/?emp_id=' . $row['id'] . '&action=delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>' . '&nbsp;&nbsp;&nbsp;' .'<a href="/registration.php/?emp_id=' . $row['id'] . '&action=update"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>' . '</td>';
                           echo "</tr>";
                        }
                    	}
