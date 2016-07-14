@@ -6,7 +6,6 @@ include_once("connection.php");
 * @purpose: access control
 */
 class role extends db_connection
-
 {
   /*
   * @access: public
