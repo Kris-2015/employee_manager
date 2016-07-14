@@ -4,7 +4,7 @@ include('control_permission.php');
 $role_id = $_SESSION['role_id'];
 $obj = new role();
 $get_role = $obj->getrole($role_id);
-
+//name the user according to there role
 if ('1' == $role_id)
 {
   $name = "admin";
@@ -13,7 +13,7 @@ else
 {
   $name = "user";
 }
-
+//checking if user has the permission to access the resource or not
 $checking_permission = $obj->isResourceAllowed($_SERVER['REQUEST_URI'], 'all');
 
 $check_access = $obj->HadPermission($role_id);
@@ -39,7 +39,8 @@ $check_access = $obj->HadPermission($role_id);
                <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Welcome, <?php echo isset($_SESSION['user_name'])? $_SESSION['user_name'] : '' ; ?> <span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                     <?php 
+                     <?php
+                     //generating the dropdown menu according to user's role
                         foreach($_SESSION['user_permission'] as $page=>$val)
                         {
                           if(basename(__FILE__) == $page)
