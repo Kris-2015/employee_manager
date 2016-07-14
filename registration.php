@@ -1,114 +1,107 @@
 <?php
-   ini_set("display_errors","1");
-   session_start();
-   include('connection.php');
-   include('session_check.php');                                                                                                               
-   $obj = new db_connection();
-   $employee_id = 0;
+ini_set("display_errors","1");
+session_start();
+// include('connection.php');
+include('control_permission.php');
+//include('session_check.php');                                                                                                              
+$obj = new db_connection();
+$employee_id = 0;
 
-   $checking_user = new session_check();
-   $check = $checking_user->logged_in();
+/*$checking_user = new session_check();
+$check = $checking_user->logged_in();
+  
+//preventing the logged in user to access registration page
+if($check)
+{
+   //if the condition is true, redirect the user to home page
+   header("location: home.php");
+}*/
+$role_id = $_SESSION['role_id'];
+$looking_access = new role();
+$checking_permission = $looking_access->isResourceAllowed($_SERVER['REQUEST_URI'], 'all');
+$check_access = $looking_access->HadPermission($role_id);
 
-   //preventing the logged in user to access registration page
-   if($check)
-   {
-      //if the condition is true, redirect the user to home page
-      header("location: home.php");
-   }
-   
-
-   if(isset($_POST['update']))
-   {
-      
-      $error = $obj->validation($_POST);
-
-      //$error = validation($_POST);
-      if($error == 0)
-      {
-         session_unset($_SESSION['error']);
-
-         $id = $_POST['hid_employeeId'];
-         $input['input_data'] = $_POST;
-         $obj->update($id,$input);
-      }
+//echo "hello, u entered";exit;
+if(isset($_POST['update']))
+{      
+  $error = $obj->validation($_POST);
+  //$error = validation($_POST);
+  if($error == 0)
+  {
+    session_unset($_SESSION['error']);
+    $id = $_POST['hid_employeeId'];
+    $input['input_data'] = $_POST;
+    $obj->update($id,$input);
+  }
        
-   }
-   else if(isset($_POST['submit']))
-   {
-
-      $error = $obj->validation($_POST);
-      if($error == 0)
-      {
-         $input_arr['input_data'] = $_POST;
-         $input_arr['file_data'] = $_FILES;
-         $obj->insert($input_arr);
+}
+else if(isset($_POST['submit']))
+{
+  $error = $obj->validation($_POST);
+  if($error == 0)
+  {
+    $input_arr['input_data'] = $_POST;
+    $input_arr['file_data'] = $_FILES;
+    $obj->insert($input_arr);
          session_unset($_SESSION['error']);
-      }
-      
+  }    
+ }
+if(isset($_GET['emp_id']) && $_GET['action'] == 'delete')
+{
+   $id = $_GET['emp_id'];
+   if($obj->delete($id))
+   {        
+     header("location: display.php");
    }
+}
+if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
+{
 
-   if(isset($_GET['emp_id']) && $_GET['action'] == 'delete')
-   {
-      $id = $_GET['emp_id'];
-      if($obj->delete($id))
-      {
-         
-         header("location: display.php");
-      }
-   }
+   $employee_id = $_GET['emp_id'];
 
-   if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
-   {
-
-      $employee_id = $_GET['emp_id'];
-
-      $user_info = $obj->retrive_data($employee_id); 
-
+   $user_info = $obj->retrive_data($employee_id); 
    
-      if(isset($user_info['home_street']) && !empty($user_info['home_street']))
-      {
-         $home_street = $user_info['home_street'];
-      }
-      else
-      {
-         $home_street = ' ';
-      }
+   if(isset($user_info['home_street']) && !empty($user_info['home_street']))
+   {
+     $home_street = $user_info['home_street'];
+   }
+   else
+   {
+      $home_street = ' ';
+   }
 
-      if(isset($user_info['office_street']) && !empty($user_info['office_street']))
-      {
-         $office_street = $user_info['office_street'];
+   if(isset($user_info['office_street']) && !empty($user_info['office_street']))
+   {
+      $office_street = $user_info['office_street'];
+   }
+   else
+   {
+      $office_street = ' ';
+   }
 
-      }
-      else
-      {
-         $office_street = ' ';
-      }
-
-      if(isset($user_info['city']) && !empty($user_info['city']))
-      {
-         $city = explode(',' , $user_info['city']);
-         $home_city = $city[0];
-         $office_city = $city[1];
-      }
-      else
-      {
-         $home_city = ' ';
-         $office_city = ' ';
-      }
-
-      if(isset($user_info['state']) && !empty($user_info['state']))
-      {
-         $state = explode(',' , $user_info['state']);
-         $home_state = $state[0];
-         $office_state = $state[1];
-      }
-      else
-      {
-         $home_state = ' ';
-         $office_state = ' ';
-      }
-
-      if(isset($user_info['zip']) && !empty($user_info['zip']))
+   if(isset($user_info['city']) && !empty($user_info['city']))
+  {
+     $city = explode(',' , $user_info['city']);
+     $home_city = $city[0];
+     $office_city = $city[1];
+   }
+   else
+   {
+     $home_city = ' ';
+     $office_city = ' ';
+   }
+   if(isset($user_info['state']) && !empty($user_info['state']))
+   {
+      $state = explode(',' , $user_info['state']);
+      $home_state = $state[0];
+      $office_state = $state[1];
+   }
+   else
+   {
+      $home_state = ' ';
+      $office_state = ' ';
+   }
+   if(isset($user_info['zip']) && !empty($user_info['zip']))
       {
          $zip = explode(',' , $user_info['zip']);
          $home_zip = $zip[0];
@@ -175,12 +168,19 @@
    <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-   <link rel="stylesheet" type="text/css" href="css/imageUpload.css">
-   <link rel="stylesheet" type="text/css" href="css/cover.css">
-   <script language="javascript" src="js/image.js"></script>
+   <link rel="stylesheet" type="text/css" href="../css/imageUpload.css">
+   <link rel="stylesheet" type="text/css" href="../css/cover.css">
+   <script language="javascript" src="../js/image.js"></script>
 </head>
 <body>
-
+<?php
+     if(!in_array(preg_replace('/\.[^.\s]{3,4}$/', '',  basename(__FILE__)), $_SESSION['has_permission']))
+     {
+      $_SESSION['display_error']['display'] = "You're not authorised to access page";
+      header('location:dashboard.php');
+      exit;
+     }
+      ?>
 <nav class="navbar navbar-inverse">
    <div class="container-fluid">
       <div class="navbar-header">
@@ -188,17 +188,17 @@
       </div>
         <ul class="nav navbar-nav">
            <li>
-              <a href="/display.php">DISPLAY</a>
+              <a href=" display.php">DISPLAY</a>
            </li>
         </ul>
          <ul class="nav navbar-nav navbar-right">
            <li>
-            <a href="/registration.php">
+            <a href=" registration.php">
              <span class="glyphicon glyphicon-user"></span>Sign-up
             </a>
            </li>
            <li>
-              <a href="/login.php">
+              <a href=" login.php">
                 <span class="glyphicon glyphicon-user">
                 </span>Login
               </a>
