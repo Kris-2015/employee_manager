@@ -40,9 +40,6 @@ $check_access = $obj->HadPermission($role_id);
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Welcome, <?php echo isset($_SESSION['user_name'])? $_SESSION['user_name'] : '' ; ?> <span class="caret"></span></a>
                   <ul class="dropdown-menu">
                      <?php 
-                        
-                       // if('all' == $checking_permission || 'view' == $checking_permission || 'update' == $checking_permission || 'delete' == $checking_permission || 'insert' == $checking_permission) 
-                       // {
                         foreach($_SESSION['user_permission'] as $page=>$val)
                         {
                           if(basename(__FILE__) == $page)
@@ -51,7 +48,6 @@ $check_access = $obj->HadPermission($role_id);
                           }
                           echo '<li><a href="' . $page . '.php">' . $page .'</a></li>' . "\n";
                         }
-                       // }
                         ?>  
                      <li><a href=" logout.php"> Logout </a></li>
                   </ul>
