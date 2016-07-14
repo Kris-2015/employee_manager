@@ -6,10 +6,10 @@ include ('user.php');
 include ('session_check.php');
 
 include ('control_permission.php');
-
+//instantiating the session check class
 $obj = new session_check();
 $check_valid_user = $obj->logged_in();
-
+//checking the user is valid or not
 if (!$check_valid_user && empty($_SESSION['user_id']))
 {
   header('location:login.php?logged_out=1');
@@ -90,7 +90,7 @@ if (!$check_valid_user && empty($_SESSION['user_id']))
                                       echo "<td>" . $row["office"] . "</td>";
                                       echo "<td>" . $row["residence"] . "</td>";
                                       echo "<td>" . $row["communication"] . "</td>";
-                                       
+                                   //checking the user's privileges    
                                   $check = $_SESSION['user_permission'][preg_replace('/\.[^.\s]{3,4}$/', '',  basename(__FILE__))];
                                       if($check == 'update')
                                       {
