@@ -73,7 +73,19 @@ $(document).ready(function()
 	    			        show_data += "<td>" + result.data[key]["office"] + "</td>";
 	    			        show_data += "<td>" + result.data[key]["residence"] + "</td>";
 	    			        show_data += "<td>" + result.data[key]["communication"] + "</td>";
-	    			        show_data += "<td>" + '<a href=" registration.php/?emp_id=' + result.data[key]["id"] +'&action=delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>&nbsp;&nbsp;&nbsp;<a href=" registration.php/?emp_id='+ result.data[key]["id"] + '&action=update"<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>' +"</td>";
+	    			        if(result.privileges == 'delete')
+	    			        {
+	    			            show_data += "<td>" + '<a href=" registration.php/?emp_id=' + result.data[key]["id"] +'&action=delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>' +"</td>";	
+	    			        }
+	    			        else if(result.privileges == 'update')
+	    			        {
+	    			        	show_data += "<td>" + '<a href=" registration.php/?emp_id='+ result.data[key]["id"] + '&action=update"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>' +"</td>";
+	    			        }
+	    			        else
+	    			        {
+	    			        	show_data += "<td>" + '<a href=" registration.php/?emp_id=' + result.data[key]["id"] +'&action=delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>&nbsp;&nbsp;&nbsp;<a href=" registration.php/?emp_id='+ result.data[key]["id"] + '&action=update"<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>' +"</td>";
+	    			        }
+	    			        
 						show_data += "</tr>";
 					}
 				}
