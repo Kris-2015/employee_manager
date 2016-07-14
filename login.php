@@ -12,7 +12,7 @@ if (isset($_POST['login']))
    $result = $user_auth->check($email_id, $password);
    if ($result)
    {
-      header("location: acl.php");
+      header("location: dashboard.php");
    }
    else
    {
@@ -37,14 +37,14 @@ if (isset($_POST['login']))
 <nav class="navbar navbar-inverse">
    <div class="container-fluid">
       <div class="navbar-header">
-         <a class="navbar-brand" href="/home.php">Employee Management</a>
+         <a class="navbar-brand" href=" home.php">Employee Management</a>
       </div>
       <ul class="nav navbar-nav">
-         <li class="active"><a href="/home.php">Home</a></li>
+         <li class="active"><a href=" home.php">Home</a></li>
       </ul>
        <ul class="nav navbar-nav navbar-right">
-       <li><a href="/registration.php"><span class="glyphicon glyphicon-user"></span> Sign-Up</a></li>
-       <li><a href="/login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+       <li><a href=" registration.php"><span class="glyphicon glyphicon-user"></span> Sign-Up</a></li>
+       <li><a href=" login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
        </ul>
    </div>
 </nav>
