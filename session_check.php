@@ -16,12 +16,13 @@
 		function logged_in()
 		{
 			//checking the session variable user_id is present or not
-			$session_id = $_SESSION["user_id"];
-			if(isset($session_id) && !empty($session_id))
+			$session_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : '1';
+			
+			if($session_id == '1')
 			{
-				return true;
+				return 0;
 			}
-			return false;
+			return 1;
 		}
 		/*
 		 * @description: performing logout operation
@@ -32,7 +33,7 @@
 		function logout()
 		{
 			//destroying the session of the user
-			session_unset($_SESSION['user_id']);
+			session_unset();//$_SESSION['user_id']
 			return true;
 		}
 	}
