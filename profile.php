@@ -3,6 +3,7 @@ ini_set("display_errors", "1");
 session_start();
 include('user.php');
 include('session_check.php');
+include('control_permission.php');
 $obj = new session_check();
 $check_valid_user = $obj->logged_in();
 
@@ -25,23 +26,22 @@ if(!$check_valid_user && empty($_SESSION['user_id']))
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="/home.php">Employee Management</a>
+      <a class="navbar-brand" href=" home.php">Employee Management</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="/home.php">Home</a></li>
+      <li class="active"><a href=" home.php">Home</a></li>
     </ul>
      <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Welcome, <?php echo isset($_SESSION['user_name'])? $_SESSION['user_name'] : '' ; ?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="/profile.php">Profile</a></li>
-            <li><a href="/logout.php"> Logout </a></li>
+            <li><a href=" profile.php">Profile</a></li>
+            <li><a href=" logout.php"> Logout </a></li>
           </ul>
         </li>
      </ul>
   </div>
 </nav>
-
 
 <div class="container">
   <div class="row">
@@ -67,25 +67,38 @@ if(!$check_valid_user && empty($_SESSION['user_id']))
              	    $obj = new user();
                 	$result = $obj->display_user($_SESSION['user_id']);
 
-                              if(mysqli_num_rows($result) > 0)
-                              {
-                              	while($row = mysqli_fetch_assoc($result))
-                              	{
-                              		echo "<tr>";
-                              		    echo "<td>" . $row["name"];
-                              		    echo "<td>" . $row["gender"] . "</td>";
-                              		    echo "<td>" . $row["dob"] . "</td>";
-                              		    echo "<td>" . $row["marital_status"] . "</td>";
-                              		    echo "<td>" . $row["office"] . "</td>";
-                              		    echo "<td>" . $row["residence"] . "</td>";
-                              		    echo "<td>" . $row["communication"] . "</td>";
-                                        echo '<td>' . '<a href="/registration.php/?emp_id=' . $row['id'] . '&action=delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>' . '&nbsp;&nbsp;&nbsp;' .'<a href="/registration.php/?emp_id=' . $row['id'] . '&action=update"<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>' . '</td>';
-                              		echo "</tr>";
-                              	}
-                              }
-                             ?>     
-                        </tbody>
-                     </table>
+                  if(mysqli_num_rows($result) > 0)
+                  {
+                  	while($row = mysqli_fetch_assoc($result))
+                   	{
+                   		echo "<tr>";
+                  	    echo "<td>" . $row["name"];
+                  	    echo "<td>" . $row["gender"] . "</td>";
+                  	    echo "<td>" . $row["dob"] . "</td>";
+                  	    echo "<td>" . $row["marital_status"] . "</td>";
+                  	    echo "<td>" . $row["office"] . "</td>";
+                  	    echo "<td>" . $row["residence"] . "</td>";
+                  	    echo "<td>" . $row["communication"] . "</td>";
+                        
+                   $check = $_SESSION['user_permission'][preg_replace('/\.[^.\s]{3,4}$/', '',  basename(__FILE__))];
+                       if($check == 'update')
+                       {
+                        echo '<td>' . '<a href="/registration.php/?emp_id=' . $row['id'] . '&action=update"<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>' . '</td>';  
+                       }
+                       else if($check == 'delete')
+                       {
+                         echo '<td>' . '<a href="/registration.php/?emp_id=' . $row['id'] . '&action=delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>' . '</td>';
+                       }
+                       else if($check == 'all')
+                       {
+                        echo '<td>' . '<a href="/registration.php/?emp_id=' . $row['id'] . '&action=delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>' . '&nbsp;&nbsp;&nbsp;' .'<a href="/registration.php/?emp_id=' . $row['id'] . '&action=update"<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>' . '</td>';
+                          echo "</tr>";
+                       }
+                   	}
+                  }
+              ?>     
+              </tbody>
+             </table>
                     </div>
                   </div>
                </div>
