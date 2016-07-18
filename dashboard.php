@@ -3,7 +3,7 @@ session_start();
 include ("control_permission.php");
 
 $role_id = $_SESSION['role_id'];
-$obj = new role();
+$obj =  new ACL();
 $get_role = $obj->getrole($role_id);
 
 if ('1' == $role_id)
@@ -71,6 +71,7 @@ $checking_permission = $obj->isResourceAllowed($_SERVER['REQUEST_URI'], 'all');
     '</div>
    </div>
   </div>';
+
   }
   else if(isset($_SESSION['display_error']['registration']))
   {
@@ -99,6 +100,7 @@ $checking_permission = $obj->isResourceAllowed($_SERVER['REQUEST_URI'], 'all');
  </div>';
  }
  ?>
+ 
  </div>
 </body>
 </html>
