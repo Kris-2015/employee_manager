@@ -5,7 +5,8 @@
 }
 .display
 {
-	background-image: url(image/wood.jpg);
+	/*background-image: url(image/wood.jpg);*/
+	background-color: #B6BDCC;
 }
 
 .welcome_user
