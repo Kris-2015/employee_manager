@@ -1,4 +1,5 @@
 $(document).ready(function() {
+   //function is used to perform sorting
    $("#onsubmit").on("click", function() {
       $.ajax({
          url: '../search_result2.php',
@@ -33,7 +34,6 @@ $(document).ready(function() {
 
 
    //getting the field name and orderby value
-
    get_data(0, 'asc-first_name');
    //ajax function for listing the number of data
    function get_data(page_val, sort) {
@@ -104,9 +104,6 @@ $(document).ready(function() {
       e.preventDefault();
       var page_no = $('.pagination .active').attr('id');
       var sort = $(this).attr('id');
-      // var current_page = $($)
-
-      console.log(sort);
       get_data(page_no, sort);
    });
 
