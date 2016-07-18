@@ -5,7 +5,7 @@ include_once ("connection.php");
 * @author: mfsi_krishnadev
 * @purpose: access control
 */
-class role extends db_connection
+class ACL extends db_connection
 {
   /*
   * @access: public
@@ -15,19 +15,23 @@ class role extends db_connection
   public function getrole($role_id)
   {
     $getrole_id = $role_id;
+
     // fetching the role and privileges of user by employee_id
-    $get_auth = "SELECT res.resource, p.name AS privilege, r.role 
+    $get_auth = "SELECT res.resource_name, p.name AS privilege, r.role_name 
       FROM role_resource_privilege rrp
       LEFT JOIN role r ON rrp.role_id = r.role_id
       LEFT JOIN privilege p ON rrp.privilege_id = p.privilege_id
       LEFT JOIN resource res ON rrp.resource_id = res.resource_id
       WHERE rrp.role_id =$getrole_id";
+
     $query = mysqli_query($this->connect, $get_auth);
+    
     while ($row = $query->fetch_assoc())
     {
-      $data[$row['resource']] = $row['privilege'];
+      $data[$row['resource_name']] = $row['privilege'];
     }
     $_SESSION['user_permission'] = $data;
+    
   }
   /*
   *function is checking the role, priviledges and resources
@@ -55,15 +59,16 @@ class role extends db_connection
   */
   public function HadPermission($role)
   {
-    $check_permission = "SELECT rrp.privilege_id,r.resource FROM role_resource_privilege rrp
+    $check_permission = "SELECT rrp.privilege_id,r.resource_name FROM role_resource_privilege rrp
           INNER JOIN resource r ON rrp.resource_id = r.resource_id
           WHERE rrp.role_id = $role";
     $see_permission = mysqli_query($this->connect, $check_permission);
     while ($row = $see_permission->fetch_assoc())
     {
-      $data[] = $row['resource'];
+      $data[] = $row['resource_name'];
     }
     $_SESSION['has_permission'] = $data;
+    
   }
   /*
   * This function is used for dropdown
@@ -82,10 +87,35 @@ class role extends db_connection
     }
   }
   /*
-  * function for fetching the role, privilege and resource
-  * @param:
-  * @return:
+  * function for fetching the role, resource and privilege
+  * @param:none
+  * @return:array
   */
-  
-}
+  public function getrrp()
+  {
+    
+      $role = "SELECT role_id, role_name FROM role";
+      $resource = "SELECT resource_id,  resource_name FROM resource";
+      $privilege = "SELECT privilege_id, name FROM privilege ";
+
+      $get_role = mysqli_query($this->connect, $role);
+      $get_resource = mysqli_query($this->connect, $resource);
+      $get_privilege = mysqli_query($this->connect, $privilege);
+      $data = [];
+
+      while($row = $get_role->fetch_assoc())
+      {
+        $data['role'][] = $row;
+      }
+      while($row = $get_resource->fetch_assoc())
+      {
+        $data['resource'][] = $row;
+      }
+      while($row = $get_privilege->fetch_assoc())
+      {
+        $data['privilege'][] = $row;
+      }
+      return $data;
+   }
+ }
 ?>
