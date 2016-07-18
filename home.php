@@ -6,7 +6,6 @@ require_once ('session_check.php');
 include ("control_permission.php");
 
 // instantiating the object of session class
-
 $obj = new session_check();
 $check_valid_user = $obj->logged_in();
 
