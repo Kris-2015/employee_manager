@@ -17,7 +17,7 @@ if($check)
    header("location: home.php");
 }*/
 $role_id = $_SESSION['role_id'];
-$looking_access = new role();
+$looking_access =  new ACL();
 $checking_permission = $looking_access->isResourceAllowed($_SERVER['REQUEST_URI'], 'all');
 $check_access = $looking_access->HadPermission($role_id);
 
