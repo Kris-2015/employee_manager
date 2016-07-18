@@ -2,7 +2,7 @@
 session_start();                            
 include('control_permission.php');
 $role_id = $_SESSION['role_id'];
-$obj = new role();
+$obj =  new ACL();
 $get_role = $obj->getrole($role_id);
 //name the user according to there role
 if ('1' == $role_id)
@@ -13,9 +13,8 @@ else
 {
   $name = "user";
 }
-//checking if user has the permission to access the resource or not
+// //checking if user has the permission to access the resource or not
 $checking_permission = $obj->isResourceAllowed($_SERVER['REQUEST_URI'], 'all');
-
 $check_access = $obj->HadPermission($role_id);
 ?>
 
@@ -29,7 +28,7 @@ $check_access = $obj->HadPermission($role_id);
       <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
       <script type="text/javascript" src="js/search.js"></script>
    </head>
-   <body background="image/wood.jpg">
+   <body class="display">
       <nav class="navbar navbar-inverse ">
          <div class="container-fluid">
             <div class="navbar-header">
