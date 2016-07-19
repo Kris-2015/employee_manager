@@ -3,7 +3,7 @@ session_start();
 include('control_permission.php');
 $role_id = $_SESSION['role_id'];
 $obj =  new ACL();
-$get_role = $obj->getrole($role_id);
+//$get_role = $obj->getrole($role_id);
 //name the user according to there role
 if ('1' == $role_id)
 {
@@ -13,7 +13,7 @@ else
 {
   $name = "user";
 }
-// //checking if user has the permission to access the resource or not
+//checking if user has the permission to access the resource or not
 $checking_permission = $obj->isResourceAllowed($_SERVER['REQUEST_URI'], 'all');
 $check_access = $obj->HadPermission($role_id);
 ?>
