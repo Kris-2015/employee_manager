@@ -15,7 +15,7 @@ else
   $name = "user";
 }
 
-$checking_permission = $obj->isResourceAllowed($_SERVER['REQUEST_URI'], 'all');
+$checking_permission = $obj->isResourceAllowed($_SERVER['REQUEST_URI']);
 ?>
 
 <!DOCTYPE html>
