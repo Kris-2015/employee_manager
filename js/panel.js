@@ -12,21 +12,20 @@ $(document).ready(function(){
    /*
     *Set the permission for the resource
    */
-   $(document).on('change', '.privilege input[type="checkbox"]:checked', function()
+   $(document).on('change', '.privilege input[type="checkbox"]', function()
    {
       var set_role = $('.role').val();
       var set_resource = $('.resource').val();
-      var set_privilege; //= $(this).val();
+      var set_privilege = $(this).val(); //= $(this).val();
       var action;
-      if(set_privilege=='undefined')
+      
+     if ( $(this)[0].checked ) 
       {
-        set_privilege=0
+        action = 'add';
+      } 
+      else 
+      {
         action = 'delete';
-      }
-      else
-      {
-        action ='add';
-        set_privilege = $(this).val();
       }
       console.log(set_role);
       console.log(set_resource);
