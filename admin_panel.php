@@ -1,3 +1,11 @@
+<?php
+session_start();
+include("control_permission.php");
+$obj = new ACL();
+$role_id = $_SESSION['role_id'];
+$checking_permission = $obj->isResourceAllowed($_SERVER['REQUEST_URI']);
+$check_access = $obj->HadPermission($role_id);
+?>
 <!DOCTYPE html>
 <html>
    <head>
@@ -8,11 +16,37 @@
       <script type="text/javascript" src="../js/panel.js"></script>
    </head>
    <body>
-      <nav class="navbar navbar-inverse">
+    <?php
+        if(!in_array(preg_replace('/\.[^.\s]{3,4}$/', '',  basename(__FILE__)), $_SESSION['has_permission']))
+        {
+           $_SESSION['display_error']['display']= "You're not authorised to access page";
+           header('location:dashboard.php');
+           exit;
+        }
+      ?>
+      <nav class="navbar navbar-inverse ">
          <div class="container-fluid">
             <div class="navbar-header">
-               <a class="navbar-brand" href="#">Employee</a>
+               <a class="navbar-brand" href="#">Admin Panel</a>
             </div>
+            <ul class="nav navbar-nav navbar-right">
+               <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Welcome, <?php echo isset($_SESSION['user_name'])? $_SESSION['user_name'] : '' ; ?> <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                     <?php              
+                        foreach($_SESSION['user_permission'] as $page=>$val)
+                        {
+                          if(basename(__FILE__) == $page)
+                          {
+                            continue;
+                          }
+                          echo '<li><a href="' . $page . '.php">' . $page.'</a></li>' . "\n";
+                        }
+                        ?>  
+                     <li><a href=" logout.php"> Logout </a></li>
+                  </ul>
+               </li>
+            </ul>
          </div>
       </nav>
       <div class="container">
@@ -27,7 +61,6 @@
                         <div class="form-group">
                            <label for="role">Role:</label>
                            <select class="form-control role" name="role">
-                              <option>--select--</option>
                            </select>
                         </div>
                         <div class="form-group">
