@@ -1,4 +1,5 @@
-$(document).ready(function() {
+$(document).ready(function() 
+{
    //function is used to perform sorting
    $("#onsubmit").on("click", function() {
       $.ajax({
@@ -106,5 +107,4 @@ $(document).ready(function() {
       var sort = $(this).attr('id');
       get_data(page_no, sort);
    });
-
 });
