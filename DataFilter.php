@@ -78,7 +78,7 @@ class data_filter extends user
    $orderby = $order;
 
     $data = "SELECT id, CONCAT(prefix,' ',first_name,' ',middle_name,' ',last_name)as name, email_id,
-	        gender, dob, marital_status,
+	        gender, dob, marital_status, github_username,
 	        (SELECT GROUP_CONCAT(street,',',city,',',state,'-',zip)AS residence
 	        FROM address addr
 	        WHERE type = 'residence'
