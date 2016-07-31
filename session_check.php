@@ -33,7 +33,7 @@
 		function logout()
 		{
 			//destroying the session of the user
-			session_unset();//$_SESSION['user_id']
+			session_unset();
 			return true;
 		}
 	}
