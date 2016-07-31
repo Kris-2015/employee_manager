@@ -63,7 +63,7 @@ class user extends db_connection
 	{			
 		$username = $name;
 		$user_email = $email;
-		$user_search = "SELECT CONCAT(prefix, ' ',first_name, ' ',middle_name , ' ', last_name)as name, gender, email_id, dob,  marital_status, id,
+		$user_search = "SELECT CONCAT(prefix, ' ',first_name, ' ',middle_name , ' ', last_name)as name, gender, email_id, dob,  marital_status, id, github_username,
 			(SELECT GROUP_CONCAT(street, ',',city, ',',state, '-',zip) AS residence 
 			FROM address addr 
 			WHERE type = 'residence' 
