@@ -16,15 +16,13 @@ class ACL extends db_connection
     public function getrole($role_id)
     {
         $getrole_id = $role_id;
-
         // fetching the role and privileges of user by employee_id
-
         $get_auth = "SELECT res.resource_name, p.name AS privilege, r.role_name 
-      FROM role_resource_privilege rrp
-      LEFT JOIN role r ON rrp.role_id = r.role_id
-      LEFT JOIN privilege p ON rrp.privilege_id = p.privilege_id
-      LEFT JOIN resource res ON rrp.resource_id = res.resource_id
-      WHERE rrp.role_id =$getrole_id";
+            FROM role_resource_privilege rrp
+            LEFT JOIN role r ON rrp.role_id = r.role_id
+            LEFT JOIN privilege p ON rrp.privilege_id = p.privilege_id
+            LEFT JOIN resource res ON rrp.resource_id = res.resource_id
+            WHERE rrp.role_id =$getrole_id";
         $query = mysqli_query($this->connect, $get_auth);
         while ($row = $query->fetch_assoc())
         {
@@ -140,7 +138,6 @@ class ACL extends db_connection
         {
             $data[] = $row;
         }
-
         return $data;
     }
     /*
@@ -148,25 +145,28 @@ class ACL extends db_connection
     */
     public function setprivilege($role,$resource,$privilege,$action)
     {
-
+        echo $role . ' ' . $resource . ' ' . $privilege . ' ' .$action;
         if($action == 'add')
         {
+
             $check_query = "SELECT role_id,resource_id,privilege_id FROM role_resource_privilege
                 WHERE role_id = $role AND resource_id = $resource AND privilege_id = $privilege";
-        
-            $check_rrp = mysqli_query($this->connect,$check_query);            
+
+            $check_rrp = mysqli_query($this->connect,$check_query);  
+            
             if(mysqli_num_rows($check_rrp) == 0)
             {
                 $set = "INSERT INTO role_resource_privilege(role_id, resource_id, privilege_id)
-                    VALUE($role, $resource, $privilege)";
+                    VALUES($role, $resource, $privilege)";
+
                 $set_query = mysqli_query($this->connect, $set);
             }
         }
         else if($action == 'delete')
         {
             $delete = "DELETE FROM role_resource_privilege
-                WHERE role_id = $role_id AND resource_id = $resource_id AND privilege_id = $privilege_id";
-
+                WHERE role_id = $role AND resource_id = $resource AND privilege_id = $privilege";     
+            
             $delete_query = mysqli_query($this->connect, $delete);
         }
 
