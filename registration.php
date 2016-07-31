@@ -1,213 +1,236 @@
 <?php
-ini_set("display_errors","1");
+ini_set("display_errors", "1");
 session_start();
-// include('connection.php');
-include('control_permission.php');
-//include('session_check.php');                                                                                                              
+include ('connection.php');
+
+// include('session_check.php');
+
+include ('control_permission.php');
+
 $obj = new db_connection();
 $employee_id = 0;
-
-/*$checking_user = new session_check();
-$check = $checking_user->logged_in();
-  
-//preventing the logged in user to access registration page
-if($check)
+/*echo "hii, in login page";
+var_dump($_SESSION);
+exit;*/
+// if user is not logged in
+if(empty($_SESSION['role_id']))
 {
-   //if the condition is true, redirect the user to home page
-   header("location: home.php");
-}*/
-$role_id = $_SESSION['role_id'];
-$looking_access =  new ACL();
-$checking_permission = $looking_access->isResourceAllowed($_SERVER['REQUEST_URI'], 'all');
-$check_access = $looking_access->HadPermission($role_id);
-
-//echo "hello, u entered";exit;
-if(isset($_POST['update']))
-{      
-  $error = $obj->validation($_POST);
-  //$error = validation($_POST);
-  if($error == 0)
-  {
-    session_unset($_SESSION['error']);
-    $id = $_POST['hid_employeeId'];
-    $input['input_data'] = $_POST;
-    $obj->update($id,$input);
-  }
-       
+    session_unset($_SESSION);
 }
-else if(isset($_POST['submit']))
+//if user is logged in
+else if (isset($_SESSION['role_id']) && !empty($_SESSION['role_id']))
 {
-  $error = $obj->validation($_POST);
-  if($error == 0)
-  {
-    $input_arr['input_data'] = $_POST;
-    $input_arr['file_data'] = $_FILES;
-    $obj->insert($input_arr);
-         session_unset($_SESSION['error']);
-  }    
- }
-if(isset($_GET['emp_id']) && $_GET['action'] == 'delete')
-{
-   $id = $_GET['emp_id'];
-   if($obj->delete($id))
-   {        
-     header("location: display.php");
-   }
+    $looking_access = new ACL();
+    $checking_permission = $looking_access->isResourceAllowed($_SERVER['REQUEST_URI'], 'all');
+    $check_access = $looking_access->HadPermission($_SESSION['role_id']);
 }
-if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
+
+if (isset($_POST['update']))
 {
+ // echo "<pre>";print_r($_POST);exit;
+    $error = $obj->validation($_POST);
+    if ($error == 0)
+    {
+        session_unset($_SESSION['error']);
+        $id = $_POST['hid_employeeId'];
+        $input['input_data'] = $_POST;
+        $after_update = $obj->update($id, $input);
+        
+        if($after_update)
+        {
+            header("location:/profile.php");
+            exit;
+        }
+    }
+}
+else if (isset($_POST['submit']))
+{
+    $error = $obj->validation($_POST);
+    if ($error == 0)
+    {
+        $input_arr['input_data'] = $_POST;
+        $input_arr['file_data'] = $_FILES;
+        $obj->insert($input_arr);
+        session_unset($_SESSION['error']);
+    }
+}
 
-   $employee_id = $_GET['emp_id'];
+if (isset($_GET['emp_id']) && $_GET['action'] == 'delete')
+{
+    $id = $_GET['emp_id'];
+    if ($obj->delete($id))
+    {
+        header("location: display.php");
+    }
+}
 
-   $user_info = $obj->retrive_data($employee_id); 
-   
-   if(isset($user_info['home_street']) && !empty($user_info['home_street']))
-   {
-     $home_street = $user_info['home_street'];
-   }
-   else
-   {
-      $home_street = ' ';
-   }
+if (isset($_GET['emp_id']) && $_GET['action'] == 'update')
+{
+    $employee_id = $_GET['emp_id'];
+    $user_info = $obj->retrive_data($employee_id);
+    if (isset($user_info['home_street']) && !empty($user_info['home_street']))
+    {
+        $home_street = $user_info['home_street'];
+    }
+    else
+    {
+        $home_street = ' ';
+    }
 
-   if(isset($user_info['office_street']) && !empty($user_info['office_street']))
-   {
-      $office_street = $user_info['office_street'];
-   }
-   else
-   {
-      $office_street = ' ';
-   }
+    if (isset($user_info['office_street']) && !empty($user_info['office_street']))
+    {
+        $office_street = $user_info['office_street'];
+    }
+    else
+    {
+        $office_street = ' ';
+    }
 
-   if(isset($user_info['city']) && !empty($user_info['city']))
-  {
-     $city = explode(',' , $user_info['city']);
-     $home_city = $city[0];
-     $office_city = $city[1];
-   }
-   else
-   {
-     $home_city = ' ';
-     $office_city = ' ';
-   }
-   if(isset($user_info['state']) && !empty($user_info['state']))
-   {
-      $state = explode(',' , $user_info['state']);
-      $home_state = $state[0];
-      $office_state = $state[1];
-   }
-   else
-   {
-      $home_state = ' ';
-      $office_state = ' ';
-   }
-   if(isset($user_info['zip']) && !empty($user_info['zip']))
-      {
-         $zip = explode(',' , $user_info['zip']);
-         $home_zip = $zip[0];
-         $office_zip = $zip[1];
-      }
-      else
-      {
-         $home_zip = ' ';
-         $office_zip = ' ';
-      }
+    if (isset($user_info['city']) && !empty($user_info['city']))
+    {
+        $city = explode(',', $user_info['city']);
+        $home_city = $city[0];
+        $office_city = $city[1];
+    }
+    else
+    {
+        $home_city = ' ';
+        $office_city = ' ';
+    }
 
-      if(isset($user_info['mobile']) && !empty($user_info['mobile']))
-      {
-         $mobile = explode(',' , $user_info['mobile']);
-         $home_mobile = $mobile[0];
-         $office_mobile = $mobile[1];
-      }
-      else
-      {
-         $home_mobile = ' ';
-         $office_mobile = ' ';
-      }
+    if (isset($user_info['state']) && !empty($user_info['state']))
+    {
+        $state = explode(',', $user_info['state']);
+        $home_state = $state[0];
+        $office_state = $state[1];
+    }
+    else
+    {
+        $home_state = ' ';
+        $office_state = ' ';
+    }
 
-      if(isset($user_info['landline']) && !empty($user_info['landline']))
-      {
-         $landline = explode(',' , $user_info['landline']);
-         $home_landline = $landline[0];
-         $office_landline = $landline[1];
-      }
-      else
-      {
-         $home_landline = ' ';
-         $office_landline = ' ';
-      }
+    if (isset($user_info['zip']) && !empty($user_info['zip']))
+    {
+        $zip = explode(',', $user_info['zip']);
+        $home_zip = $zip[0];
+        $office_zip = $zip[1];
+    }
+    else
+    {
+        $home_zip = ' ';
+        $office_zip = ' ';
+    }
 
-      if(isset($user_info['fax']) && !empty($user_info['fax']))
-      {
-         $fax = explode(',' , $user_info['fax']);
-         $home_fax = $fax[0];
-         $office_fax = $fax[1];
-      }
-      else
-      {
-         $home_fax = ' ';
-         $office_fax = ' ';
-      }
+    if (isset($user_info['mobile']) && !empty($user_info['mobile']))
+    {
+        $mobile = explode(',', $user_info['mobile']);
+        $home_mobile = $mobile[0];
+        $office_mobile = $mobile[1];
+    }
+    else
+    {
+        $home_mobile = ' ';
+        $office_mobile = ' ';
+    }
 
-      if(isset($user_info['communication']) && !empty($user_info['communication']))
-      {
-         $communication = explode(',' , $user_info['communication']);
-         $comm_1 = isset($communication[0]) ? $communication[0] : ' ';
-         $comm_2 = isset($communication[1]) ? $communication[1] : ' ';
-         $comm_3 = isset($communication[2]) ? $communication[2] : ' ';
-         $comm_4 = isset($communication[3]) ? $communication[3] : ' ';
-      }
-   }
+    if (isset($user_info['landline']) && !empty($user_info['landline']))
+    {
+        $landline = explode(',', $user_info['landline']);
+        $home_landline = $landline[0];
+        $office_landline = $landline[1];
+    }
+    else
+    {
+        $home_landline = ' ';
+        $office_landline = ' ';
+    }
 
-   //if(isset($_POST['submit']))
+    if (isset($user_info['fax']) && !empty($user_info['fax']))
+    {
+        $fax = explode(',', $user_info['fax']);
+        $home_fax = $fax[0];
+        $office_fax = $fax[1];
+    }
+    else
+    {
+        $home_fax = ' ';
+        $office_fax = ' ';
+    }
+
+    if (isset($user_info['communication']) && !empty($user_info['communication']))
+    {
+        $communication = explode(',', $user_info['communication']);
+        $comm_1 = isset($communication[0]) ? $communication[0] : ' ';
+        $comm_2 = isset($communication[1]) ? $communication[1] : ' ';
+        $comm_3 = isset($communication[2]) ? $communication[2] : ' ';
+        $comm_4 = isset($communication[3]) ? $communication[3] : ' ';
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html>
-<head>
-   <title>Registration</title>
-   <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-   <link rel="stylesheet" type="text/css" href="../css/imageUpload.css">
-   <link rel="stylesheet" type="text/css" href="../css/cover.css">
-   <script language="javascript" src="../js/image.js"></script>
-</head>
-<body>
-<?php
-     if(!in_array(preg_replace('/\.[^.\s]{3,4}$/', '',  basename(__FILE__)), $_SESSION['has_permission']))
-     {
-      $_SESSION['display_error']['display'] = "You're not authorised to access page";
-      header('location:dashboard.php');
-      exit;
-     }
+   <head>
+      <title>Registration</title>
+      <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+      <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="../css/imageUpload.css">
+      <link rel="stylesheet" type="text/css" href="../css/cover.css">
+      <script language="javascript" src="../js/image.js"></script>
+   </head>
+   <body>
+      <?php
+         //checking user access permission
+         // if(!in_array(preg_replace('/\.[^.\s]{3,4}$/', '',  basename(__FILE__)), $_SESSION['has_permission']))
+         // {
+         //  $_SESSION['display_error']['display'] = "You're not authorised to access page";
+         //  //unauthorised user are directed to dashboard
+         //  header('location:dashboard.php');
+         //  exit;
+         //}
       ?>
-<nav class="navbar navbar-inverse">
-   <div class="container-fluid">
-      <div class="navbar-header">
-         <a class="navbar-brand">EMPLOYEE SYSTEM</a>
-      </div>
-        <ul class="nav navbar-nav">
-           <li>
-              <a href=" display.php">DISPLAY</a>
-           </li>
-        </ul>
-         <ul class="nav navbar-nav navbar-right">
-           <li>
-            <a href=" registration.php">
-             <span class="glyphicon glyphicon-user"></span>Sign-up
-            </a>
-           </li>
-           <li>
-              <a href=" login.php">
-                <span class="glyphicon glyphicon-user">
-                </span>Login
-              </a>
-          </li>
-        </ul>
-   </div>
-</nav>
-
-<div class="container">
+      <nav class="navbar navbar-inverse">
+         <div class="container-fluid">
+            <div class="navbar-header">
+               <a class="navbar-brand" href=" home.php">EMPLOYEE Management</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+               <?php if (isset($_SESSION['role_id']) == 1): ?>
+               <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Welcome, <?php echo isset($_SESSION['user_name'])? $_SESSION['user_name'] : '' ; ?> <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                     <?php
+                        //generating the dropdown menu according to user's role
+                        foreach($_SESSION['user_permission'] as $page=>$val)
+                        {
+                             if(basename(__FILE__) == $page)
+                             {
+                                 continue;
+                              }
+                              echo '<li><a href="/' . $page . '.php">' . $page .'</a></li>' . "\n";
+                         }
+                        ?> 
+                     <li><a href="logout.php"> Logout </a></li>
+                  </ul>
+                  <?php else: ?>
+               <li>
+                  <a href=" registration.php">
+                  <span class="glyphicon glyphicon-user"></span>Sign-up
+                  </a>
+               </li>
+               <li>
+                  <a href=" login.php">
+                  <span class="glyphicon glyphicon-user">
+                  </span>Login
+                  </a>
+               </li>
+               <?php endif ?>
+            </ul>
+         </div>
+      </nav>
+      <div class="container">
          <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                <div class="well well-lg">
@@ -224,8 +247,8 @@ if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
                         <input type="text" class="form-control" id="fname" name="first_name" 
                            value="<?php echo (isset($user_info['first_name']) ? $user_info['first_name'] : ''); ?><?php echo isset($_POST['first_name'])? $_POST['first_name'] : ' '; ?>" maxlenght="20"  required/>
                         <span class="error"> 
-                            <?php echo "<br>";
-                              echo isset( $_SESSION['error']['first_name_err'] ) ?  $_SESSION['error']['first_name_err']  : ' '; ?> 
+                        <?php echo "<br>";
+                           echo isset( $_SESSION['error']['first_name_err'] ) ?  $_SESSION['error']['first_name_err']  : ' '; ?> 
                         </span>
                      </div>
                      <div class="form-group">
@@ -234,9 +257,9 @@ if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
                         <input type="text" class="form-control" id="mname" name="middle_name"
                            value="<?php echo (isset($user_info['middle_name']) ? $user_info['middle_name'] : ''); ?><?php isset($_POST['middle_name'])? $_POST['middle_name'] : ' '; ?>" maxlenght="20"  /> 
                         <span class="error"> 
-                          <?php echo "<br>";
-                          echo isset($_SESSION['error']['middle_name_err'])? $_SESSION['error']['middle_name_err'] : ' '; 
-                        ?> 
+                        <?php echo "<br>";
+                           echo isset($_SESSION['error']['middle_name_err'])? $_SESSION['error']['middle_name_err'] : ' '; 
+                           ?> 
                         </span>  
                      </div>
                      <div class="form-group">
@@ -355,45 +378,56 @@ if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
                               value="<?php echo (isset($user_info['employer']) ? $user_info['employer'] : ''); ?>" required maxlenght="20" />
                            <span class="error"> 
                            <?php echo "<br>";
-                              echo isset($_SESSION['employer_err'])? $_SESSION['employer_err'] : ''; 
+                              echo isset($_SESSION['employer_err'])? $_SESSION['employer_err'] : ' '; 
                               ?> 
+                           </span>
+                        </div>
+                     </div>
+                     <br><br>
+                     <div class="form-group">
+                        <label class="control-label col-lg-4" for="git_id">Github ID:</label>
+                        <div class="col-lg-8">
+                           <input type="text" class="form-control" id="git_id" name="github_username"
+                              value="<?php echo (isset($user_info['github_username']) ? $user_info['github_username'] : ' '); ?>"
+                              maxlength="20" />
+                           <span class="error">
+                           <?php echo "<br>";
+                              echo isset($_SESSION['github_username'])? $_SESSION['github_username'] : ' ';
+                              ?>
                            </span>
                         </div>
                      </div>
                      <br>
                      <br>
                      <div class="form-group">
-                     <label class="control-label col-lg-4" for="email" >Email id:</label>
+                        <label class="control-label col-lg-4" for="email" >Email id:</label>
                         <div class="col-lg-8">
                            <input type="text" class="form-control" id="email" name="email" required value="<?php echo (isset($user_info['email_id']) ? $user_info['email_id'] : '') ?>" placeholder="xyz@mail.com">
                         </div>
                         <span class="error">
-                           <?php echo isset($_SESSION['error']['email_id_err'])? $_SESSION['error']['email_id_err'] : ''; ?>
-                        </span>
-                     </div>
-
-                     <br />
-                     <br />
-
-                      <div class="form-group">
-                     <label class="control-label col-lg-4" for="password">Password:</label>
-                        <div class="col-lg-8">
-                           <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                        </div>
-                        <span class="error">
-                           <?php echo isset($_SESSION['error']['password_err'])? $_SESSION['error']['password_err'] : ''; ?>
+                        <?php echo isset($_SESSION['error']['email_id_err'])? $_SESSION['error']['email_id_err'] : ''; ?>
                         </span>
                      </div>
                      <br />
                      <br />
                      <div class="form-group">
-                     <label class="control-label col-lg-4" for="confirm_password">Confirm Password:</label>
+                        <label class="control-label col-lg-4" for="password">Password:</label>
+                        <div class="col-lg-8">
+                           <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                        </div>
+                        <span class="error">
+                        <?php echo isset($_SESSION['error']['password_err'])? $_SESSION['error']['password_err'] : ''; ?>
+                        </span>
+                     </div>
+                     <br />
+                     <br />
+                     <div class="form-group">
+                        <label class="control-label col-lg-4" for="confirm_password">Confirm Password:</label>
                         <div class="col-lg-8">
                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password">
                         </div>
                      </div>
                      <!-- Image Upload -->
-                     
                      <br>
                      <br>
                      <div class="form-group">
@@ -403,13 +437,13 @@ if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
                            <div class="input-group image-preview">
                               <input type="text" class="form-control image-preview-filename" value="" disabled="disabled" required >
                               <span class="input-group-btn">
-                                  <!-- Image preview-clear button --> 
+                                 <!-- Image preview-clear button --> 
                                  <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
                                  <span class="glyphicon glyphicon-remove">
                                  </span>Clear
                                  </button>
-                                  <!-- image-preview-input -->     
-                                <div class="btn btn-default image-preview-input">
+                                 <!-- image-preview-input -->     
+                                 <div class="btn btn-default image-preview-input">
                                     <span class="glyphicon glyphicon-folder-open">
                                     </span>
                                     <span class="image-preview-input-title">Browse
@@ -420,11 +454,8 @@ if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
                            </div>
                         </div>
                         <span class="error">
-
                         </span>
                      </div>
-                     
-
                      <!-- Image Upload task ends -->
                      <br />
                      <hr class="hr" />
@@ -441,8 +472,8 @@ if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
                                  <input type="text" class="form-control" id="home_street" name="home_street" value="<?php echo (isset($home_street) ? $home_street : ''); ?>" required maxlength="50" >
                                  <span class="error"> 
                                  <?php echo "<br>";
-                                  echo isset($_SESSION['error']['home_street_err'])?  $_SESSION['error']['home_street_err'] : '';
-                                 ?> 
+                                    echo isset($_SESSION['error']['home_street_err'])?  $_SESSION['error']['home_street_err'] : '';
+                                    ?> 
                                  </span>           
                               </div>
                            </div>
@@ -455,8 +486,8 @@ if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
                                  <input type="text" class="form-control" id="home_city" name="home_city" value="<?php echo (isset($home_city) ? $home_city : ''); ?>" required maxlength="10">
                                  <span class="error"> 
                                  <?php echo "<br>";
-                                     echo isset($_SESSION['error']['home_city_err'])?  $_SESSION['error']['home_city_err'] : ''; 
-                                 ?> 
+                                    echo isset($_SESSION['error']['home_city_err'])?  $_SESSION['error']['home_city_err'] : ''; 
+                                    ?> 
                                  </span>
                               </div>
                            </div>
@@ -555,8 +586,8 @@ if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
                                  </select>
                                  <span class="error"> 
                                  <?php echo "<br>";
-                                     echo isset($_SESSION['error']['home_state_err'])?  $_SESSION['error']['home_state_err'] : '';
-                                  ?> 
+                                    echo isset($_SESSION['error']['home_state_err'])?  $_SESSION['error']['home_state_err'] : '';
+                                    ?> 
                                  </span>
                               </div>
                            </div>
@@ -569,8 +600,8 @@ if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
                                  <input type="text" id="home_zip" name="home_zip" class="form-control" value="<?php echo (isset($home_zip) ? $home_zip : ''); ?>" required maxlength="10">
                                  <span class="error"> 
                                  <?php echo "<br>";
-                                   echo isset($_SESSION['error']['home_zip_err'])?  $_SESSION['error']['home_zip_err'] : ''; 
-                                  ?>
+                                    echo isset($_SESSION['error']['home_zip_err'])?  $_SESSION['error']['home_zip_err'] : ''; 
+                                    ?>
                                  </span>
                               </div>
                            </div>
@@ -583,8 +614,8 @@ if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
                                  <input type="text" class="form-control" id="home_mobile" name="home_mobile" value="<?php echo (isset($home_mobile) ? $home_mobile : ''); ?>" required  maxlength="10">
                                  <span class="error"> 
                                  <?php echo "<br>";
-                                   echo isset($_SESSION['error']['home_mobile_err'])?  $_SESSION['error']['home_mobile_err'] : ''; 
-                                  ?> 
+                                    echo isset($_SESSION['error']['home_mobile_err'])?  $_SESSION['error']['home_mobile_err'] : ''; 
+                                    ?> 
                                  </span>
                               </div>
                            </div>
@@ -598,7 +629,7 @@ if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
                                  <span class="error"> 
                                  <?php echo "<br>";
                                     echo isset($_SESSION['error']['home_landline_err'])?  $_SESSION['error']['home_landline_err'] : '';
-                                  ?> 
+                                    ?> 
                                  </span>
                               </div>
                            </div>
@@ -612,7 +643,7 @@ if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
                                  <span class="error"> 
                                  <?php echo "<br>";
                                     echo isset($_SESSION['error']['home_fax_err'])?  $_SESSION['error']['home_fax_err'] : '';
-                                 ?> 
+                                    ?> 
                                  </span>
                               </div>
                            </div>
@@ -630,7 +661,7 @@ if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
                                  <span class="error"> 
                                  <?php echo "<br>";
                                     echo isset($_SESSION['error']['office_street_err'])?  $_SESSION['error']['office_street_err'] : '';
-                                 ?> 
+                                    ?> 
                                  </span>
                               </div>
                            </div>
@@ -644,7 +675,7 @@ if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
                                  <span class="error"> 
                                  <?php echo "<br>";
                                     echo isset($_SESSION['error']['office_city_err'])?  $_SESSION['error']['office_city_err'] : '';
-                                  ?> 
+                                    ?> 
                                  </span>
                               </div>
                            </div>
@@ -737,7 +768,7 @@ if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
                                  <span class="error"> 
                                  <?php echo "<br>";
                                     echo isset($_SESSION['error']['office_state_err'])?  $_SESSION['error']['office_state_err'] : '';
-                                 ?> 
+                                    ?> 
                                  </span>
                               </div>
                            </div>
@@ -751,7 +782,7 @@ if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
                                  <span class="error"> 
                                  <?php echo "<br>";
                                     echo isset($_SESSION['error']['office_zip_err'])?  $_SESSION['error']['office_zip_err'] : '';
-                                 ?> 
+                                    ?> 
                                  </span>
                               </div>
                            </div>
@@ -765,7 +796,7 @@ if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
                                  <span class="error"> 
                                  <?php echo "<br>";
                                     echo isset($_SESSION['error']['office_mobile_err'])?  $_SESSION['error']['office_mobile_err'] : '';
-                                 ?> 
+                                    ?> 
                                  </span>
                               </div>
                            </div>
@@ -779,7 +810,7 @@ if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
                                  <span class="error"> 
                                  <?php echo "<br>";
                                     echo isset($_SESSION['error']['office_landline_err'])?  $_SESSION['error']['office_landline_err'] : '';
-                                  ?> 
+                                    ?> 
                                  </span>
                               </div>
                            </div>
@@ -787,13 +818,13 @@ if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
                            <br>
                            <div class="form-group">
                               <label class="control-label col-xs-4" for="office_fax">Fax:
-                          </label>
+                              </label>
                               <div class="col-xs-8">
                                  <input type="text" class="form-control" id="office_fax" name="office_fax" value="<?php echo (isset($office_fax) ? $office_fax : ''); ?>" maxlength="10" >
                                  <span class="error"> 
                                  <?php echo "<br>";
-                                  echo isset($_SESSION['error']['office_fax_err'])?  $_SESSION['error']['office_fax_err'] : '';
-                                 ?> 
+                                    echo isset($_SESSION['error']['office_fax_err'])?  $_SESSION['error']['office_fax_err'] : '';
+                                    ?> 
                                  </span>
                               </div>
                            </div>
@@ -829,12 +860,12 @@ if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
                         </div>
                         <span class="error"> 
                         <?php echo "<br>";
-                          echo isset($_SESSION['error']['communication_err'])?  $_SESSION['error']['communication_err'] : '';
-                        ?> 
+                           echo isset($_SESSION['error']['communication_err'])?  $_SESSION['error']['communication_err'] : '';
+                           ?> 
                         </span>
                      </div>
                </div>
-               <div class="form-group" style="position:relative; left:35%;">
+               <div class="form-group" style="position:absolute; left:35%;">
                <div class="col-lg-12">
                <?php
                   if(isset($_GET['action']) && $_GET['action']=='update')
@@ -847,7 +878,7 @@ if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
                      echo  "<input type = 'submit' name = 'submit' value = 'REGISTER' class = 'btn btn-lg btn-info'>
                             <input type = 'reset'  class = 'btn btn-lg btn-danger>' ";  
                   }
-               ?>
+                  ?>
                </div>
                </div>
                </form>
@@ -855,5 +886,5 @@ if(isset($_GET['emp_id']) && $_GET['action'] == 'update')
          </div>
       </div>
       </div>
-</body>
+   </body>
 </html>
