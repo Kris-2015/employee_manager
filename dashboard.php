@@ -46,7 +46,7 @@ $checking_permission = $obj->isResourceAllowed($_SERVER['REQUEST_URI']);
               {
                 continue;
               }
-              echo '<li><a href="' . $page . '.php">' . $page.'</a></li>' . "\n";
+              echo '<li><a href=" ' . $page . '.php">' . $page.'</a></li>' . "\n";
             }
           ?>  
           <li><a href=" logout.php"> Logout </a></li>
@@ -62,45 +62,43 @@ $checking_permission = $obj->isResourceAllowed($_SERVER['REQUEST_URI']);
 	  <p class="welcome_user">Welcome <?php echo $name; ?></p>
   <?php
 
-    if(isset($_SESSION['display_error']['display']))
-    {
-     echo '<div class="alert alert-danger" role="alert">
-      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-      <span class="sr-only">Error:</span>'
-        . $_SESSION['display_error']['display'] .
-    '</div>
-   </div>
-  </div>';
-
-  }
-  else if(isset($_SESSION['display_error']['registration']))
+  if (isset($_SESSION['display_error']['display']))
   {
-   echo '<div class="alert alert-danger" role="alert">
-      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-      <span class="sr-only">Error:</span>'
-        . $_SESSION['display_error']['registration'] .
-    '</div>
-   </div>
-  </div>'; 
+    echo '<div class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>' . $_SESSION['display_error']['display'] . '</div>
+     </div>
+    </div>';
   }
-?>
-<?php 
- if($name == 'admin')
- {
-  echo '
-  <div class="row">
-    <div class="col-xs-6">
-     <div class="panel panel-default">
-      <div class="panel-body">
-            <button type="button" class="btn btn-primary btn-lg pull-right"><a href=" display.php" id="admin_button">VIEW</a></button><br><br><br>
-            <button type="button" class="btn btn-danger btn-lg pull-right"><a href="display.php" id="admin_button">EDIT</a></button>         
+  else
+  if (isset($_SESSION['display_error']['registration']))
+  {
+    echo '<div class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>' . $_SESSION['display_error']['registration'] . '</div>
+     </div>
+    </div>';
+  }
+
+  ?>
+  <?php
+
+  if ($name == 'admin')
+  {
+    echo '
+    <div class="row">
+      <div class="col-xs-6">
+       <div class="panel panel-default">
+        <div class="panel-body">
+              <a class="btn btn-primary btn-lg pull-right" href=" display.php" id="admin_button">VIEW</a><br /><br /><br />
+              <a class="btn btn-danger btn-lg pull-right" href=" display.php" id="admin_button">EDIT</a>         
+        </div>
       </div>
     </div>
-  </div>
- </div>';
- }
- ?>
- 
+   </div>';
+  }
+
+  ?>
  </div>
 </body>
 </html>
