@@ -1,23 +1,22 @@
 <?php 
-session_start();                            
-include('control_permission.php');
-$role_id = $_SESSION['role_id'];
-$obj =  new ACL();
-//$get_role = $obj->getrole($role_id);
-//name the user according to there role
-if ('1' == $role_id)
-{
-  $name = "admin";
-}
-else
-{
-  $name = "user";
-}
-//checking if user has the permission to access the resource or not
-$checking_permission = $obj->isResourceAllowed($_SERVER['REQUEST_URI'], 'all');
-$check_access = $obj->HadPermission($role_id);
-?>
-
+   session_start();                            
+   include('control_permission.php');
+   $role_id = $_SESSION['role_id'];
+   $obj =  new ACL();
+   //$get_role = $obj->getrole($role_id);
+   //name the user according to there role
+   if ('1' == $role_id)
+   {
+     $name = "admin";
+   }
+   else
+   {
+     $name = "user";
+   }
+   //checking if user has the permission to access the resource or not
+   $checking_permission = $obj->isResourceAllowed($_SERVER['REQUEST_URI'], 'all');
+   $check_access = $obj->HadPermission($role_id);
+   ?>
 <!DOCTYPE html>
 <html>
    <head>
@@ -27,6 +26,7 @@ $check_access = $obj->HadPermission($role_id);
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
       <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
       <script type="text/javascript" src="js/search.js"></script>
+      <script type="text/javascript" src="js/profile.js"></script>
    </head>
    <body class="display">
       <nav class="navbar navbar-inverse ">
@@ -39,7 +39,7 @@ $check_access = $obj->HadPermission($role_id);
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Welcome, <?php echo isset($_SESSION['user_name'])? $_SESSION['user_name'] : '' ; ?> <span class="caret"></span></a>
                   <ul class="dropdown-menu">
                      <?php
-                     //generating the dropdown menu according to user's role
+                        //generating the dropdown menu according to user's role
                         foreach($_SESSION['user_permission'] as $page=>$val)
                         {
                           if(basename(__FILE__) == $page)
@@ -48,7 +48,7 @@ $check_access = $obj->HadPermission($role_id);
                           }
                           echo '<li><a href="' . $page . '.php">' . $page .'</a></li>' . "\n";
                         }
-                        ?>  
+                     ?>  
                      <li><a href=" logout.php"> Logout </a></li>
                   </ul>
                </li>
@@ -56,14 +56,13 @@ $check_access = $obj->HadPermission($role_id);
          </div>
       </nav>
       <?php
-           if(!in_array(preg_replace('/\.[^.\s]{3,4}$/', '',  basename(__FILE__)), $_SESSION['has_permission']))
-           {
-              $_SESSION['display_error']['display']= "You're not authorised to access page";
-              header('location:dashboard.php');
-              exit;
-           }
-      ?>
-
+         if(!in_array(preg_replace('/\.[^.\s]{3,4}$/', '',  basename(__FILE__)), $_SESSION['has_permission']))
+         {
+            $_SESSION['display_error']['display']= "You're not authorised to access page";
+            header('location:dashboard.php');
+            exit;
+         }
+         ?>
       <h2 align="center"><u>REGISTERED USER</u></h2>
       <div class="container">
          <div class="row">
@@ -92,7 +91,7 @@ $check_access = $obj->HadPermission($role_id);
                               <tr>
                                  <td align="center"><u>NAME</u><br><button type="button" class="btn btn-default btn-xs class_order" id="asc-first_name"><span class="glyphicon glyphicon-menu-up"></span></button><button type="button" class="btn btn-default btn-xs class_order" id="desc-first_name"><span class="glyphicon glyphicon-menu-down"></span></button></td>
                                  <td align="center"><u>GENDER</u></td>
-                                 <td align="center"><u>DOB</u><br><button type="button" class="btn btn-default btn-xs class_order" id="asc-dob"><span class="glyphicon glyphicon-menu-up"></span></button><button type="button" class="btn btn-default btn-xs class_order" id="desc-dob"><span class="glyphicon glyphicon-menu-down"></span></button></td>
+                                 <td align="center" width="100px"><u>DOB</u><br><button type="button" class="btn btn-default btn-xs class_order" id="asc-dob"><span class="glyphicon glyphicon-menu-up"></span></button><button type="button" class="btn btn-default btn-xs class_order" id="desc-dob"><span class="glyphicon glyphicon-menu-down"></span></button></td>
                                  <td align="center"><u>email id</u><br><button type="button" class="btn btn-default btn-xs class_order" id="asc-email_id"><span class="glyphicon glyphicon-menu-up"></span></button><button type="button" class="btn btn-default btn-xs class_order" id="desc-email_id" ><span class="glyphicon glyphicon-menu-down"></span></button></td>
                                  <td align="center"><u>Marital Status</u></td>
                                  <td align="center"><u>OFFICIAL ADDRESS</u></td>
@@ -104,6 +103,32 @@ $check_access = $obj->HadPermission($role_id);
                            <tbody class="page_body">
                            </tbody>
                         </table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- Modal -->
+            <div id="profile" class="modal fade" role="dialog">
+               <div class="modal-dialog">
+                  <div class="modal-content gitinfo">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title git_name">Loading Github Profile  </h4>
+                     </div>
+                     <div class="modal-body git-modal">
+                        <div class="loader-container hidden">
+                           <div id="loader"></div>
+                        </div>
+                        <div class="row github-container">
+                           <div class="col-xs-5 image"></div>
+                           <div class="col-xs-7">
+                              <p id="git_login"> </p>
+                              <p id="git_location"> </p>
+                              <p id="git_repositories">  </p>
+                              <p id="git_follower"> </p>
+                              <p id="git_following"> </p>
+                           </div>
+                        </div>
                      </div>
                   </div>
                </div>
