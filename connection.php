@@ -62,6 +62,7 @@ class db_connection
 	    $employment = $input['input_data']['employment'];
 	    $employer = $input['input_data']['employer'];
 	    $email_id = $input['input_data']['email'];
+	    $github_username = $input['input_data']['github_username'];
 	    $password = md5($input['input_data']['password']);
 	    $confirm_password = md5($input['input_data']['confirm_password']);
 	    $image = $input['file_data']['image'];
@@ -85,7 +86,7 @@ class db_connection
 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								
 		if($password == $confirm_password)
 	    {
-	        $insert_employee = "INSERT INTO employee(first_name, middle_name, last_name, prefix, gender, dob, marital_status, employment, employer, email_id, password, image) VALUES('$first_name', '$middle_name', '$last_name', '$prefix', '$gender', '$dob', '$marital_status', '$employment', '$employer', '$email_id', '$password','$image[name]')" ;
+	        $insert_employee = "INSERT INTO employee(first_name, middle_name, last_name, prefix, gender, dob, marital_status, employment,github_username, employer, email_id, password, image) VALUES('$first_name', '$middle_name', '$last_name', '$prefix', '$gender', '$dob', '$marital_status', '$employment', '$github_username','$employer', '$email_id', '$password','$image[name]')" ;
 	    	 
 	        $result_employee = mysqli_query($this->connect,$insert_employee);
 	    	
@@ -171,7 +172,8 @@ class db_connection
 		$gender = isset($input['input_data']['gender']) ? $input['input_data']['gender'] : ' ';
 		$dob = isset($input['input_data']['dob']) ? $input['input_data']['dob'] : ' ';
 		$email_id = isset($input['input_data']['email']) ? $input['input_data']['email'] : ' ';
-		$password = isset($input['input_data']['password']) ? md5($input['input_data']['password']) : ' ';
+		$github_username = $input['input_data']['github_username'];
+		$password = isset($input['input_data']['password']) ? md5($input['input_data']['password']) : '';
 		$marital_status = isset($input['input_data']['marital_status']) ? $input['input_data']['marital_status'] : ' ';
 		$employment = isset($input['input_data']['employment']) ? $input['input_data']['employment'] : ' ';
 		$employer = isset($input['input_data']['employer']) ? $input['input_data']['employer'] : ' ';
@@ -201,53 +203,50 @@ class db_connection
 		 		gender = '$gender',
 		 		dob = '$dob',
 		 		email_id = '$email_id',
+		 		github_username = '$github_username',
 		 		password = '$password',
 		 		marital_status = '$marital_status',
 		 		employment = '$employment',
 		 		employer = '$employer',
 		 		image = '$image'
 		 	WHERE e.id = $employee_id";
-		 	
+
 		$result_employee = mysqli_query($this->connect , $update_employee);
-	
+
 		if($result_employee === TRUE)
 		{
-		   $update_residence = "UPDATE employee e
-		 	LEFT JOIN address addr ON e.id = addr.employee_id
+		   $update_residence = "UPDATE address
 		 	SET street = '$home_street',
 		 		city = '$home_city',
 		 		state = '$home_state',
 		 		mobile = '$home_mobile',
 		 		landline = '$home_landline',
 		 		fax = '$home_fax'
-		 	WHERE addr.employee_id = $employee_id 
+		 	WHERE employee_id = $employee_id 
 		 	AND type = 'residence'";
 
 		   $result_residence = mysqli_query($this->connect, $update_residence);
 		 		
-		   $update_office = "UPDATE employee e
-		 	LEFT JOIN address addr ON e.id = addr.employee_id
+		   $update_office = "UPDATE address
 		 	SET street = '$office_street',
 		 		city = '$office_city',
 		 		state = '$office_state',
 		 		mobile = '$office_mobile',
 		 		landline = '$office_landline',
 		 		fax = '$office_fax'
-		 	WHERE addr.employee_id = $employee_id 
+		 	WHERE employee_id = $employee_id 
 		 	AND type = 'office'";
 
 		 	$result_office = mysqli_query($this->connect, $update_office);
 
-		 	$update_communication = "UPDATE employee e 
-		 		LEFT JOIN communication comm ON e.id = comm.employee_id
+		 	$update_communication = "UPDATE communication 
 		 		SET type = '$communication'
-		 		WHERE comm.employee_id = $employee_id";
+		 		WHERE employee_id = $employee_id";
 
 		 	$result_communication = mysqli_query($this->connect, $update_communication);
 		 }
 		 mysqli_close($this->connect);
-		header("location: profile.php");
-		exit;
+		 return 1;
 	 }
 
 	 /*
@@ -369,7 +368,6 @@ class db_connection
 		if (isset($input["first_name"]) && !empty($input["first_name"]))
 		{
 			$first_name = $this->test_input($input["first_name"]);
-
 			// check for the letters and whitespace
 
 			if (!preg_match("/^[a-zA-Z ]*$/", $first_name))
@@ -378,7 +376,7 @@ class db_connection
 				$error++;
 			}
 			else
-			{
+			{ 
 				$_SESSION['user_data']['first_name'] = $first_name;
 			}
 		}
@@ -408,7 +406,6 @@ class db_connection
 		if (isset($input['last_name']))
 		{
 			$last_name = $this->test_input($input["last_name"]);
-
 			// check for the letters and whitespace
 
 			if (!preg_match("/^[a-zA-Z ]*$/", $last_name))
@@ -430,10 +427,9 @@ class db_connection
 		if (isset($input["employer"]))
 		{
 			$employer = $this->test_input($input["employer"]);
-
 			// checks for the presence of letter
 
-			if (!preg_match("/^[a-zA-Z]*$/", $employer))
+			if (!preg_match("/^[a-zA-Z ]*$/", $employer))
 			{
 				$_SESSION['error']['employer'] = $error_list['employer'];
 				$error++;
@@ -460,25 +456,26 @@ class db_connection
 			$_SESSION['error']['confirm_password_err'] = $error_space['confirm_password'];
 			$error++;
 		}
+		
+		if(empty($input['email']))
+		{
+		    $_SESSION['error']['email_id_err'] = $error_space['email_id'];
+		}
+		else
+		{
+		    $email = $this->test_input($input["email"]);
+		    
+		    if(!filter_var($email, FILTER_VALIDATE_EMAIL))
+		    {
+		        $_SESSION['error']['email_id_err'] = $error_list['email_id'];
+		        $error++;
+		    }
+		}
 
-		// echo "<pre>";
-		// print_r($_SESSION);
-		// echo $error;
-		// exit;
-
-		// if(empty($input['email_id']))
-		// {
-		//     $_SESSION['error']['email_id_err'] = $error_space['email_id'];
-		// }
-		// else
-		// {
-		//     $email = test_input($input["email"]);
-		//     if(!filter($email, FILTER_VALIDATE_EMAIL))
-		//     {
-		//         $_SESSION['error']['email_id_err'] = $error_list['email_id'];
-		//         $error++;
-		//     }
-		// }
+		if(!empty($input['github_username']))
+		{
+			$github_username = $this->test_input($input['github_username']);
+		}
 
 		if (isset($input["image"]))
 		{
@@ -486,21 +483,21 @@ class db_connection
 			$error++;
 		}
 
-		// if (isset($input["home_street"]))
-		// {
-		//     $home_street = test_input($input["home_street"]);
-		//     // checks for the presence of letter
-		//     if (!preg_match("/^[a-zA-Z]*$/", $home_street))
-		//     {
-		//         var_dump(preg_match("/^[a-zA-Z]*$/", $home_street));
-		//         $_SESSION['error']['home_street_err'] = $error_list['home_street'];
-		//         $error++;
-		//     }
-		// }
-		// else
-		// {
-		//     $_SESSION['error']['home_street_err'] = $error_space['home_street'];
-		// }
+		if (isset($input["home_street"]))
+		{
+		    $home_street = $this->test_input($input["home_street"]);
+		    // checks for the presence of letter
+		    if (!preg_match("/^[a-zA-Z0-9, ]*$/", $home_street))
+		    {
+		        $_SESSION['error']['home_street_err'] = $error_list['home_street'];
+		        $error++;
+		    }
+		}
+		else
+		{
+		    $_SESSION['error']['home_street_err'] = $error_space['home_street'];
+		}
+
 		if (isset($input["home_city"]))
 		{
 			$home_city = $this->test_input($input["home_city"]);
@@ -557,7 +554,7 @@ class db_connection
 
 		if (isset($input["home_landline"]))
 		{
-			$home_zip = $this->test_input($input["home_landline"]);
+			$home_landline = $this->test_input($input["home_landline"]);
 			// checks for the presence of letter
 
 			if (!preg_match("/^[0-9]*$/", $home_zip))
@@ -588,20 +585,21 @@ class db_connection
 		}
 
 		// validation of office table
-		// if (isset($input["office_street"]))
-		// {
-		//     $office_street = test_input($input["office_street"]);
-		//     // checks for the presence of letter
-		//     if (!preg_match("/^[a-zA-Z]*$/", $office_street))
-		//     {
-		//         $_SESSION['error']['office_street_err'] = $error_list['office_street'];
-		//         $error++;
-		//     }
-		// }
-		// else
-		// {
-		//     $_SESSION['error']['office_street_err'] = $error_space['office_street'];
-		// }
+		if (isset($input["office_street"]))
+		{
+		    $office_street = $this->test_input($input["office_street"]);
+		    // checks for the presence of letter
+		    if (!preg_match("/^[a-zA-Z0-9, ]*$/", $office_street))
+		    {
+		        $_SESSION['error']['office_street_err'] = $error_list['office_street'];
+		        $error++;
+		    }
+		}
+		else
+		{
+		    $_SESSION['error']['office_street_err'] = $error_space['office_street'];
+		}
+
 		if (isset($input["office_city"]))
 		{
 			$office_city = $this->test_input($input["office_city"]);
@@ -626,7 +624,6 @@ class db_connection
 		if (isset($input["office_zip"]))
 		{
 			$office_zip = $this->test_input($input["office_zip"]);
-
 			// checks for the presence of letter
 
 			if (!preg_match("/^[0-9]*$/", $office_zip))
@@ -640,20 +637,21 @@ class db_connection
 			$_SESSION['error']['office_zip_err'] = $error_space['office_zip'];
 		}
 
-		// if (isset($input["office_mobile"]))
-		// {
-		//     $office_mobile = test_input($input["office_mobile"]);
-		//     // checks for the presence of letter
-		//     if (!preg_match("/^[0-9]*$/", $office_mobile))
-		//     {
-		//         $_SESSION['error']['office_mobile_err'] = $error_list['office_mobile'];
-		//         $error++;
-		//     }
-		// }
-		// else
-		// {
-		//     $_SESSION['error']['office_mobile_err'] = $error_space['office_mobile'];
-		// }
+		if (isset($input["office_mob"]))
+		{
+		    $office_mobile = $this->test_input($input["office_mob"]);
+		    // checks for the presence of letter
+		    if (!preg_match("/^[0-9]*$/", $office_mobile))
+		    {
+		        $_SESSION['error']['office_mobile_err'] = $error_list['office_mobile'];
+		        $error++;
+		    }
+		}
+		else
+		{
+		    $_SESSION['error']['office_mobile_err'] = $error_space['office_mobile'];
+		}
+
 		if (isset($input["office_landline"]))
 		{
 			$office_landline = $this->test_input($input["office_landline"]);
@@ -691,10 +689,7 @@ class db_connection
 			$_SESSION['error']['communication_err'] = $error_list['communication'];
 			$error++;
 		}
-
 		return $error;
-
-
 	}
 
 	/*
